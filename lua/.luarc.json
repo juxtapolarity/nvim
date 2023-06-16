@@ -1,0 +1,9 @@
+{
+    "workspace.library": [
+        "/home/jux/.local/share/nvim/site/pack/packer/start/neodev.nvim/types/nightly",
+        "/home/jux/bin/nvim-linux64/share/nvim/runtime/lua",
+        "/home/jux/.local/share/nvim/site/pack/packer/start/nvim-dap-ui/lua",
+        "/home/jux/.config/nvim/lua",
+        "${3rd}/luv/library"
+    ]
+}
