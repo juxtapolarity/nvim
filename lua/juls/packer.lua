@@ -9,7 +9,7 @@ return require('packer').startup(function(use)
 
     -- fuzzy finder
     use('nvim-lua/plenary.nvim')
-    use{'nvim-telescope/telescope.nvim', tag = '0.1.1'}
+    use{'nvim-telescope/telescope.nvim', tag = '0.1.5'}
     use('nvim-lua/popup.nvim')
 
     -- syntax highlighting
@@ -84,6 +84,11 @@ return require('packer').startup(function(use)
 
     -- easy escape - remap of escape key
     use("zhou13/vim-easyescape")
+
+    use{"smoka7/hop.nvim", tag = '*'}
+    if vim.g.vscode then
+        -- use("asvetliakov/vim-easymotion")
+    end
 
     -- add/delete/change surrounding pairs
     use{"kylechui/nvim-surround", tag = "*"}

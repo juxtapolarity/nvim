@@ -1,7 +1,7 @@
 -- check if VSCode exists
-if vim.g.vscode then
+--[[ if vim.g.vscode then
     return
-end
+end ]]
 
 -- add/delete/change surrounding pairs
 require("nvim-surround").setup()

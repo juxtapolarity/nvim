@@ -1,3 +1,8 @@
+-- leader key
+vim.g.mapleader = " "
+
+if vim.g.vscode then
+else
 -- line numbers
 vim.opt.number = true -- show absolute line numbers
 vim.opt.relativenumber = true -- show relative line numbers
@@ -26,6 +31,4 @@ vim.opt.updatetime = 50
 
 -- color column (the vertical line)
 -- vim.opt.colorcolumn = "80"
-
--- leader key
-vim.g.mapleader = " "
+end
