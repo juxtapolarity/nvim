@@ -47,3 +47,11 @@ vim.api.nvim_set_keymap('x', '<leader>fg', ":call VSCodeNotify('workbench.action
 vim.api.nvim_set_keymap('n', '<leader>fe', ":call VSCodeNotify('workbench.action.expandSearchResults')<CR>", {silent = true})
 vim.api.nvim_set_keymap('x', '<leader>fe', ":call VSCodeNotify('workbench.action.expandSearchResults')<CR>", {silent = true})
 
+-- ctr+u and ctrl+d
+vim.cmd([[
+  command! ScrollDown execute "normal! 15jzz"
+  command! ScrollUp execute "normal! 15kzz"
+]])
+
+vim.keymap.set("n", "<C-d>", ":ScrollDown<CR>")
+vim.keymap.set("n", "<C-u>", ":ScrollUp<CR>")
