@@ -22,3 +22,8 @@ else
     -- Equivalent to 'colorscheme tokyonight'
     vim.cmd('colorscheme tokyonight')
 end
+
+-- Load lazy.nvim
+local lazypath = vim.fn.stdpath("data") .. "/site/pack/lazy/start/lazy.nvim"
+vim.opt.rtp:prepend(lazypath)
+require("juls.lazy")
