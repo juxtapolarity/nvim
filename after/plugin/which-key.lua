@@ -1,43 +1,20 @@
--- check if VSCode exists
 if vim.g.vscode then
     return
 end
 
-local wk = require("which-key")
--- As an example, we will create the following mappings:
---  * <leader>ff find files
---  * <leader>fr show recent files
---  * <leader>fb Foobar
--- we'll document:
---  * <leader>fn new file
---  * <leader>fe edit file
--- and hide <leader>1
+vim.defer_fn(function()
+    local ok, wk = pcall(require, "which-key")
+    if ok then
+        wk.setup({})
 
--- files
-wk.register({
-    f = {
-        name = "file", -- optional group name
-    },
-}, {prefix = "<leader>" })
-
--- debug 
-wk.register({
-    d = {
-        name = "debug", -- optional group name
-    },
-}, {prefix = "<leader>" })
-
--- harpoon
-wk.register({
-    h = {
-        name = "harpoon", -- optional group name
-    },
-}, {prefix = "<leader>" })
-
--- trouble
-wk.register({
-    T = {
-        name = "trouble", -- optional group name
-    },
-}, {prefix = "<leader>" })
-
+        -- Minimal configuration to isolate the issue
+        wk.register({
+            f = { name = "file" },
+            d = { name = "debug" },
+            h = { name = "harpoon" },
+            T = { name = "trouble" },
+        }, { prefix = "<leader>" })
+    else
+        vim.notify('Failed to load which-key', vim.log.levels.ERROR)
+    end
+end, 0)

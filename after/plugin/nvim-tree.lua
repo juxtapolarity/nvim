@@ -4,11 +4,11 @@ if vim.g.vscode then
 end
 
 -- disable netrw at the very start of your init.lua (strongly advised)
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
+-- vim.g.loaded_netrw = 1
+-- vim.g.loaded_netrwPlugin = 1
 
--- empty setup using defaults
-require("nvim-tree").setup()
+-- -- empty setup using defaults
+-- require("nvim-tree").setup()
 
 -- keymaps
 --vim.keymap.set('n', '<leader>e', nvim-tree-api.tree.toggle(), { desc = "File explorer" })

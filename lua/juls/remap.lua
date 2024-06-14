@@ -22,3 +22,18 @@ vim.keymap.set("n", "Q", "<nop>")
 -- reselect line after indentation
 vim.keymap.set("v", "<", "<gv", { noremap = true, silent = true })
 vim.keymap.set("v", ">", ">gv", { noremap = true, silent = true })
+
+-- embrace vim: remap arrow keys
+vim.keymap.set("n", "<Up>", "k", { noremap = true, silent = true })
+vim.keymap.set("n", "<Down>", "j", { noremap = true, silent = true })
+vim.keymap.set("n", "<Left>", "h", { noremap = true, silent = true })
+vim.keymap.set("n", "<Right>", "l", { noremap = true, silent = true })
+vim.keymap.set("v", "<Up>", "k", { noremap = true, silent = true })
+vim.keymap.set("v", "<Down>", "j", { noremap = true, silent = true })
+vim.keymap.set("v", "<Left>", "h", { noremap = true, silent = true })
+vim.keymap.set("v", "<Right>", "l", { noremap = true, silent = true })
+vim.keymap.set("i", "<Up>", "<C-o>k", { noremap = true, silent = true })
+vim.keymap.set("i", "<Down>", "<C-o>j", { noremap = true, silent = true })
+vim.keymap.set("i", "<Left>", "<C-o>h", { noremap = true, silent = true })
+vim.keymap.set("i", "<Right>", "<C-o>l", { noremap = true, silent = true })
+
