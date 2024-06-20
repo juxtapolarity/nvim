@@ -10,18 +10,24 @@ lazy.setup({
     -- 'wbthomason/packer.nvim',
 
     -- fuzzy finder
-    {'nvim-lua/plenary.nvim', lazy = true},
-    {'nvim-lua/popup.nvim', lazy = true},
     {
         'nvim-telescope/telescope.nvim',
         cmd = "Telescope",
         tag = '0.1.8',
-        dependencies = { 'nvim-lua/plenary.nvim', 'nvim-lua/popup.nvim' },
+        dependencies = { 
+            { 'nvim-lua/plenary.nvim', lazy = true }, 
+            { 'nvim-lua/popup.nvim', lazy = true },
+            -- { 
+            --     'nvim-telescope/telescope-dap.nvim', 
+            --     cmd = "Telescope" 
+            -- }
+        },
         config = function()
             require('telescope').setup()
-            require('telescope').load_extension('dap')
+            -- require('telescope').load_extension('dap')
         end,
     },
+
 
     -- treesitter: syntax highlighting
     {
@@ -29,8 +35,9 @@ lazy.setup({
         run = ':TSUpdate',
         event = 'BufRead',
     },
-    { 'nvim-treesitter/playground', dependencies = 'nvim-treesitter/nvim-treesitter' },
-    { "nvim-treesitter/nvim-treesitter-textobjects", dependencies = "nvim-treesitter/nvim-treesitter" },
+    { 'nvim-treesitter/playground', dependencies = 'nvim-treesitter/nvim-treesitter', cmd = 'TSPlaygroundToggle' },
+    { "nvim-treesitter/nvim-treesitter-textobjects", dependencies = "nvim-treesitter/nvim-treesitter", event = 'BufRead' },
+
 
     -- quick file access
     {'theprimeagen/harpoon', module = "harpoon"},
@@ -42,7 +49,8 @@ lazy.setup({
 
     -- comments
     { 'numToStr/Comment.nvim', event = "BufRead" },
-    { 'JoosepAlviste/nvim-ts-context-commentstring', dependencies = 'nvim-treesitter/nvim-treesitter' },
+    { 'JoosepAlviste/nvim-ts-context-commentstring', dependencies = 'nvim-treesitter/nvim-treesitter', event = 'BufRead' },
+
 
     -- toggle terminal
     {
@@ -51,66 +59,54 @@ lazy.setup({
         cmd = { "ToggleTerm", "TermExec" },
     },
 
-    -- -- debugging
-    { 'nvim-telescope/telescope-dap.nvim', dependencies = 'nvim-telescope/telescope.nvim'},
-    { 'mfussenegger/nvim-dap', event = "BufReadPre" },
-    { 
-        "rcarriga/nvim-dap-ui",
-        dependencies = 'mfussenegger/nvim-dap',
-        config = function()
-            require('dapui').setup()
-        end,
-    },
-    { 
-        'mfussenegger/nvim-dap-python',
-        dependencies = 'mfussenegger/nvim-dap',
-        config = function()
-            require('dap-python').setup()
-        end,
-    },
-    {
-        'theHamsta/nvim-dap-virtual-text',
-        dependencies = 'mfussenegger/nvim-dap',
-        config = function()
-            require('nvim-dap-virtual-text').setup()
-        end,
-    },
+    -- debugging
+    -- 'mfussenegger/nvim-dap',
+    -- "rcarriga/nvim-dap-ui",
+    -- 'mfussenegger/nvim-dap-python',
+    -- 'theHamsta/nvim-dap-virtual-text',
+
 
     -- key binder reminding mechanism
     {
         "folke/which-key.nvim",
         event = "VeryLazy",
-        init = function()
-            vim.o.timeout = true
-            vim.o.timeoutlen = 300
+        config = function()
+            require("which-key").setup()
         end,
     },
-    -- "folke/which-key.nvim",
+
+    -- git signs
     -- {
-    --     "folke/which-key.nvim",
+    --     'lewis6991/gitsigns.nvim',
     --     event = "VeryLazy",
     --     config = function()
-    --         require("which-key").setup({
-    --             -- You can add any configuration options for which-key here
-    --         })
+    --         require('gitsigns').setup()
     --     end,
     -- },
 
-    -- -- git signs
-    -- { 'lewis6991/gitsigns.nvim', event = "BufRead",
-    --    config = function()
-    --        require('gitsigns').setup({ e
-    --            -- your gitsigns configuration
-    --        })
-    --    end, },
-    --
-    -- -- cmp plugins
-    -- 'hrsh7th/cmp-nvim-lsp',
-    -- 'hrsh7th/cmp-buffer',
-    -- 'hrsh7th/cmp-path',
-    -- 'hrsh7th/cmp-cmdline',
-    -- 'hrsh7th/nvim-cmp',
-    -- 'hrsh7th/cmp-nvim-lsp-signature-help',
+    -- cmp plugins
+    'hrsh7th/nvim-cmp',
+    'hrsh7th/cmp-nvim-lsp',
+    'hrsh7th/cmp-buffer',
+    'hrsh7th/cmp-path',
+    'hrsh7th/cmp-cmdline',
+    'hrsh7th/cmp-nvim-lsp-signature-help',
+    'L3MON4D3/LuaSnip', -- Snippet engine
+    'saadparwaiz1/cmp_luasnip', -- Snippet completion source
+    'onsails/lspkind-nvim',
+    -- {
+    --     'hrsh7th/nvim-cmp',
+    --     event = "InsertEnter",
+    --     dependencies = {
+    --         'hrsh7th/cmp-nvim-lsp',
+    --         'hrsh7th/cmp-buffer',
+    --         'hrsh7th/cmp-path',
+    --         'hrsh7th/cmp-cmdline',
+    --         'hrsh7th/cmp-nvim-lsp-signature-help',
+    --         'L3MON4D3/LuaSnip', -- Snippet engine
+    --         'saadparwaiz1/cmp_luasnip', -- Snippet completion source
+    --     },
+    -- },
 
     -- file explorer
     {'nvim-tree/nvim-web-devicons', lazy = true},
@@ -151,10 +147,11 @@ lazy.setup({
     --
     -- -- easy escape - remap of escape key
     -- -- "zhou13/vim-easyescape",
-    --
-    -- -- hop
+
+    -- hop
+    "smoka7/hop.nvim",
     -- { "smoka7/hop.nvim", branch = 'main' },
-    --
+
     -- -- add/delete/change surrounding pairs
     -- { "kylechui/nvim-surround", branch = 'main' },
     --
@@ -166,10 +163,24 @@ lazy.setup({
     -- -- type checking
     -- "folke/neodev.nvim",
     --
-    -- -- lsp 
-    -- 'neovim/nvim-lspconfig',
-    -- { 'williamboman/mason.nvim', run = ":MasonUpdate" },
-    -- 'williamboman/mason-lspconfig.nvim',
+    -- lsp 
+    'neovim/nvim-lspconfig',
+    'williamboman/mason.nvim',
+    'williamboman/mason-lspconfig.nvim',
+    -- {
+    --     'neovim/nvim-lspconfig',
+    --     event = "BufReadPre",
+    -- },
+    -- {
+    --     'williamboman/mason.nvim',
+    --     run = ":MasonUpdate",
+    --     event = "BufReadPre",
+    -- },
+    -- {
+    --     'williamboman/mason-lspconfig.nvim',
+    --     event = "BufReadPre",
+    --     dependencies = { 'williamboman/mason.nvim' },
+    -- },
     --
     -- -- linting and formatting
     -- 'jose-elias-alvarez/null-ls.nvim',
@@ -189,8 +200,24 @@ lazy.setup({
     { 'nvim-neotest/nvim-nio' },
 
     -- zen mode
-    {"folke/zen-mode.nvim", cmd = "ZenMode"},
+    -- {"folke/zen-mode.nvim", cmd = "ZenMode"},
+    {
+        "folke/zen-mode.nvim",
+        cmd = "ZenMode",  -- Load only when ZenMode command is calleo
+        config = function()
+            -- Configuration for zen-mode will be placed here
+            require('zen-mode').setup({
+                -- your zen-mode configuration
+                window = {
+                    width = .65 -- width will be 85% of the editor width
+                }
+            })
+        end,
+    },
 
     -- GitHub Copilot
-    'github/copilot.vim'
+    -- {
+    --     'github/copilot.vim',
+    --     event = "InsertEnter",
+    -- },
 })
