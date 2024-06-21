@@ -83,14 +83,20 @@ lazy.setup({
     --         require('gitsigns').setup()
     --     end,
     -- },
+    -- lsp 
+    'neovim/nvim-lspconfig',
+    'williamboman/mason.nvim',
+    'williamboman/mason-lspconfig.nvim',
 
     -- cmp plugins
-    'hrsh7th/nvim-cmp',
     'hrsh7th/cmp-nvim-lsp',
     'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-path',
     'hrsh7th/cmp-cmdline',
+    'hrsh7th/nvim-cmp',
     'hrsh7th/cmp-nvim-lsp-signature-help',
+
+    -- snippets
     'L3MON4D3/LuaSnip', -- Snippet engine
     'saadparwaiz1/cmp_luasnip', -- Snippet completion source
     'onsails/lspkind-nvim',
@@ -163,10 +169,6 @@ lazy.setup({
     -- -- type checking
     -- "folke/neodev.nvim",
     --
-    -- lsp 
-    'neovim/nvim-lspconfig',
-    'williamboman/mason.nvim',
-    'williamboman/mason-lspconfig.nvim',
     -- {
     --     'neovim/nvim-lspconfig',
     --     event = "BufReadPre",
@@ -216,8 +218,8 @@ lazy.setup({
     },
 
     -- GitHub Copilot
-    -- {
-    --     'github/copilot.vim',
-    --     event = "InsertEnter",
-    -- },
+    {
+        'github/copilot.vim',
+        event = "InsertEnter",
+    },
 })
