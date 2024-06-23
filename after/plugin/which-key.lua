@@ -8,9 +8,10 @@ if ok then
 
     -- Minimal configuration to isolate the issue
     wk.register({
-        f = { name = "file" },
         d = { name = "debug" },
+        f = { name = "file" },
         h = { name = "harpoon" },
+        o = { name = "obsidian" },
         T = { name = "trouble" },
     }, { prefix = "<leader>" })
 else

@@ -2,6 +2,8 @@
 if vim.g.vscode then
     return
 end
+ok, telescope = pcall(require, 'telescope')
+telescope.load_extension("ascii")
 
 vim.keymap.set('n', '<leader>ff', ":Telescope find_files<CR>", { desc = "find files" })
 vim.keymap.set('n', '<leader>fg', ":Telescope live_grep<CR>", { desc = "live grep" })

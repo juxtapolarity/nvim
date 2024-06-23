@@ -43,3 +43,8 @@ vim.keymap.set("n", "<C-j>", "<C-w>j", { noremap = true, silent = true })
 vim.keymap.set("n", "<C-k>", "<C-w>k", { noremap = true, silent = true })
 vim.keymap.set("n", "<C-l>", "<C-w>l", { noremap = true, silent = true })
 
+-- Map <leader>v to enter visual block mode
+-- Map <leader>v to enter visual block mode
+vim.keymap.set('n', '<leader>v', '<C-v>', { noremap = true, silent = true })
+
+

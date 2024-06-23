@@ -6,9 +6,6 @@ vim.cmd [[packadd lazy.nvim]]
 local lazy = require('lazy')
 
 lazy.setup({
-    -- Packer can manage itself
-    -- 'wbthomason/packer.nvim',
-
     -- fuzzy finder
     {
         'nvim-telescope/telescope.nvim',
@@ -17,17 +14,11 @@ lazy.setup({
         dependencies = { 
             { 'nvim-lua/plenary.nvim', lazy = true }, 
             { 'nvim-lua/popup.nvim', lazy = true },
-            -- { 
-            --     'nvim-telescope/telescope-dap.nvim', 
-            --     cmd = "Telescope" 
-            -- }
         },
         config = function()
             require('telescope').setup()
-            -- require('telescope').load_extension('dap')
         end,
     },
-
 
     -- treesitter: syntax highlighting
     {
@@ -38,7 +29,6 @@ lazy.setup({
     { 'nvim-treesitter/playground', dependencies = 'nvim-treesitter/nvim-treesitter', cmd = 'TSPlaygroundToggle' },
     { "nvim-treesitter/nvim-treesitter-textobjects", dependencies = "nvim-treesitter/nvim-treesitter", event = 'BufRead' },
 
-
     -- quick file access
     {'theprimeagen/harpoon', module = "harpoon"},
 
@@ -46,11 +36,9 @@ lazy.setup({
     { 'mbbill/undotree', cmd = "UndotreeToggle" },
     { 'tpope/vim-fugitive', cmd = "Git" },
 
-
     -- comments
     { 'numToStr/Comment.nvim', event = "BufRead" },
     { 'JoosepAlviste/nvim-ts-context-commentstring', dependencies = 'nvim-treesitter/nvim-treesitter', event = 'BufRead' },
-
 
     -- toggle terminal
     {
@@ -58,13 +46,6 @@ lazy.setup({
         branch = 'main',
         cmd = { "ToggleTerm", "TermExec" },
     },
-
-    -- debugging
-    -- 'mfussenegger/nvim-dap',
-    -- "rcarriga/nvim-dap-ui",
-    -- 'mfussenegger/nvim-dap-python',
-    -- 'theHamsta/nvim-dap-virtual-text',
-
 
     -- key binder reminding mechanism
     {
@@ -75,44 +56,20 @@ lazy.setup({
         end,
     },
 
-    -- git signs
-    -- {
-    --     'lewis6991/gitsigns.nvim',
-    --     event = "VeryLazy",
-    --     config = function()
-    --         require('gitsigns').setup()
-    --     end,
-    -- },
     -- lsp 
-    'neovim/nvim-lspconfig',
-    'williamboman/mason.nvim',
-    'williamboman/mason-lspconfig.nvim',
+    { 'neovim/nvim-lspconfig', event = { 'BufRead', 'BufNewFile' } },
+    { 'williamboman/mason.nvim', run = ":MasonUpdate", event = { 'BufRead', 'BufNewFile' } },
+    { 'williamboman/mason-lspconfig.nvim', event = { 'BufRead', 'BufNewFile' }, dependencies = { 'williamboman/mason.nvim' } },
 
     -- cmp plugins
+    'hrsh7th/nvim-cmp',
     'hrsh7th/cmp-nvim-lsp',
     'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-path',
     'hrsh7th/cmp-cmdline',
-    'hrsh7th/nvim-cmp',
     'hrsh7th/cmp-nvim-lsp-signature-help',
-
-    -- snippets
-    'L3MON4D3/LuaSnip', -- Snippet engine
-    'saadparwaiz1/cmp_luasnip', -- Snippet completion source
-    'onsails/lspkind-nvim',
-    -- {
-    --     'hrsh7th/nvim-cmp',
-    --     event = "InsertEnter",
-    --     dependencies = {
-    --         'hrsh7th/cmp-nvim-lsp',
-    --         'hrsh7th/cmp-buffer',
-    --         'hrsh7th/cmp-path',
-    --         'hrsh7th/cmp-cmdline',
-    --         'hrsh7th/cmp-nvim-lsp-signature-help',
-    --         'L3MON4D3/LuaSnip', -- Snippet engine
-    --         'saadparwaiz1/cmp_luasnip', -- Snippet completion source
-    --     },
-    -- },
+    'L3MON4D3/LuaSnip',
+    'saadparwaiz1/cmp_luasnip',
 
     -- file explorer
     {'nvim-tree/nvim-web-devicons', lazy = true},
@@ -124,14 +81,10 @@ lazy.setup({
             vim.g.loaded_netrw = 1
             vim.g.loaded_netrwPlugin = 1
 
-            -- This configuration will be loaded when NvimTreeToggle is executed
             require("nvim-tree").setup()
         end,
     },
 
-    -- -- trouble (diagnostics, errors, etc.)
-    -- 'folke/trouble.nvim',
-    --
     -- transparent
     {'xiyaowong/transparent.nvim', event='VeryLazy'},
 
@@ -144,74 +97,29 @@ lazy.setup({
         module = 'swenv',
         config = function()
             require('swenv').setup({
-                -- your swenv configuration
                 notification = false,  -- Disable notification messages
             })
         end,
     },
     { 'stevearc/dressing.nvim', event = 'VeryLazy' },
-    --
-    -- -- easy escape - remap of escape key
-    -- -- "zhou13/vim-easyescape",
 
     -- hop
-    "smoka7/hop.nvim",
-    -- { "smoka7/hop.nvim", branch = 'main' },
-
-    -- -- add/delete/change surrounding pairs
-    -- { "kylechui/nvim-surround", branch = 'main' },
-    --
-    -- -- snippets
-    -- 'L3MON4D3/LuaSnip',
-    -- 'saadparwaiz1/cmp_luasnip',
-    -- 'rafamadriz/friendly-snippets',
-    --
-    -- -- type checking
-    -- "folke/neodev.nvim",
-    --
-    -- {
-    --     'neovim/nvim-lspconfig',
-    --     event = "BufReadPre",
-    -- },
-    -- {
-    --     'williamboman/mason.nvim',
-    --     run = ":MasonUpdate",
-    --     event = "BufReadPre",
-    -- },
-    -- {
-    --     'williamboman/mason-lspconfig.nvim',
-    --     event = "BufReadPre",
-    --     dependencies = { 'williamboman/mason.nvim' },
-    -- },
-    --
-    -- -- linting and formatting
-    -- 'jose-elias-alvarez/null-ls.nvim',
-    --
-    -- -- python testing
-    -- "nvim-neotest/neotest",
-    -- "nvim-neotest/neotest-python",
-    --
-    -- -- distant (ssh connection)
-    -- {
-    --     'chipsenkbeil/distant.nvim',
-    --     branch = 'v0.2',
-    --     event = "BufReadPre", -- Lazy load when opening a buffer
-    -- },
-    --
-    -- Add nvim-nio dependency
-    { 'nvim-neotest/nvim-nio' },
+    {
+        "smoka7/hop.nvim",
+        cmd = "HopWord",
+        config = function()
+            require('hop').setup()
+        end,
+    },
 
     -- zen mode
-    -- {"folke/zen-mode.nvim", cmd = "ZenMode"},
     {
         "folke/zen-mode.nvim",
-        cmd = "ZenMode",  -- Load only when ZenMode command is calleo
+        cmd = "ZenMode",
         config = function()
-            -- Configuration for zen-mode will be placed here
             require('zen-mode').setup({
-                -- your zen-mode configuration
                 window = {
-                    width = .65 -- width will be 85% of the editor width
+                    width = .65 -- width will be 65% of the editor width
                 }
             })
         end,
@@ -220,6 +128,74 @@ lazy.setup({
     -- GitHub Copilot
     {
         'github/copilot.vim',
-        event = "InsertEnter",
+        event = "VeryLazy",
     },
+
+    {
+      "epwalsh/obsidian.nvim",
+      version = "*",  -- recommended, use latest release instead of latest commit
+      lazy = true,
+      ft = "markdown",
+      -- event = {
+      --   -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
+      --   -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
+      --   "BufReadPre " .. vim.fn.expand "~" .. "obsidian/juxnotes/**.md",
+      --   "BufNewFile " .. vim.fn.expand "~" .. "obsidian/juxnotes/**.md",
+      -- },
+      dependencies = {
+        -- Required.
+        "nvim-lua/plenary.nvim",
+      },
+      -- opts = {
+      --   workspaces = {
+      --     {
+      --       name = "juxnotes",
+      --       path = "~/obsidian/juxnotes",
+      --     },
+      --   },
+      -- },
+    },
+
+    {
+      'nvimdev/dashboard-nvim',
+      event = 'VimEnter',
+      config = function()
+        require('dashboard').setup {
+          -- config
+        }
+        -- Ensure the dashboard is shown on startup
+        -- vim.api.nvim_create_autocmd('VimEnter', {
+        --   callback = function()
+        --     if vim.fn.argc() == 0 then
+        --       vim.cmd('Dashboard')
+        --     end
+        --   end
+        -- })
+      end,
+      dependencies = { {'nvim-tree/nvim-web-devicons'}}
+    },
+
+    {
+        "MaximilianLloyd/ascii.nvim",
+        dependencies = {
+            "MunifTanjim/nui.nvim",
+        },
+    },
+    -- better command line
+    -- {
+    --   "folke/noice.nvim",
+    --   event = "VeryLazy",
+    --   opts = {
+    --     -- add any options here
+    --   },
+    --   dependencies = {
+    --     -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+    --     "MunifTanjim/nui.nvim",
+    --     -- OPTIONAL:
+    --     --   `nvim-notify` is only needed, if you want to use the notification view.
+    --     --   If not available, we use `mini` as the fallback
+    --     "rcarriga/nvim-notify",
+    --     }
+    -- },
 })
+

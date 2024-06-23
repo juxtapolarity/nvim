@@ -29,6 +29,8 @@ vim.opt.isfname:append("@-@")
 -- fast update time
 vim.opt.updatetime = 50
 
+-- conceal level
+vim.opt.conceallevel = 2
 -- color column (the vertical line)
 -- vim.opt.colorcolumn = "80"
 end
