@@ -1,7 +1,19 @@
 -- This file can be loaded by calling `lua require('juls.lazy')` from your init.lua
 
 -- Ensure lazy.nvim is available
-vim.cmd [[packadd lazy.nvim]]
+-- vim.cmd [[packadd lazy.nvim]]
+
+-- Bootstrap lazy.nvim
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+  vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+end
+vim.opt.rtp:prepend(lazypath)
+
+-- Check if the required Obsidian directory exists
+-- local obsidian_directory = "/home/jux/obsidian/juxnotes"
+-- local obsidian_exists = vim.loop.fs_stat(obsidian_directory)
 
 local lazy = require('lazy')
 
