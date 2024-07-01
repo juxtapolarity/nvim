@@ -14,6 +14,11 @@ if ok then
           },
         },
 
+        -- New note default folder
+        notes = {
+            folder = "Notes",
+        },
+
        -- Optional, configure additional syntax highlighting / extmarks.
        -- This requires you have `conceallevel` set to 1 or 2. See `:help conceallevel` for more details.
        ui = {
@@ -66,24 +71,55 @@ if ok then
             -- Optional, default tags to add to each new daily note created.
             default_tags = { "daily-notes" },
             -- Optional, if you want to automatically insert a template from your template directory like 'daily.md'
-            template = nil
+            template = "Templates/daily.md",
         },
 
 
 
-         -- Optional, for templates (see below).
-          templates = {
-            folder = "Templates",
-          },
-     })
+        -- Optional, customize how note IDs are generated given an optional title.
+        ---@param title string|?
+        ---@return string
+        note_id_func = function(title)
+          -- Create note IDs in a Zettelkasten format with a timestamp and a suffix.
+          -- In this case a note with the title 'My new note' will be given an ID that looks
+          -- like '1657296016-my-new-note', and therefore the file name '1657296016-my-new-note.md'
+          local suffix = ""
+          if title ~= nil then
+            -- If title is given, transform it into valid file name.
+            suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+          else
+            -- If title is nil, just add 4 random uppercase letters to the suffix.
+            for _ = 1, 4 do
+              suffix = suffix .. string.char(math.random(65, 90))
+            end
+          end
+          return tostring(os.time()) .. "-" .. suffix
+        end,
+
+        -- Optional, customize how note file names are generated given the ID, target directory, and title.
+        ---@param spec { id: string, dir: obsidian.Path, title: string|? }
+        ---@return string|obsidian.Path The full path to the new note.
+        note_path_func = function(spec)
+          -- This is equivalent to the default behavior.
+          local path = spec.dir / "Notes" / tostring(spec.id)
+          return path:with_suffix(".md")
+        end,
+
+        -- Optional, for templates (see below).
+        templates = {
+          folder = "Templates",
+        },
+
+        })
 
     -- Add your custom key mappings for Obsidian plugin
     vim.keymap.set('n', '<leader>oa', ":ObsidianOpen<CR>", { desc = "Open in app" })
     vim.keymap.set('n', '<leader>on', ":ObsidianNew<CR>", { desc = "Create note" })
+    vim.keymap.set('n', '<leader>oc', ":ObsidianToggleCheckbox<CR>", { desc = "Toggle checkbox" })
     vim.keymap.set('n', '<leader>of', ":ObsidianQuickSwitch<CR>", { desc = "Find files"})
     vim.keymap.set('n', '<leader>og', ":ObsidianSearch<CR>", { desc = "Find grep" })
     vim.keymap.set('n', '<leader>ol', ":ObsidianLink<CR>", { desc = "Create link" })
-    vim.keymap.set('n', '<leader>ob', ":ObsidianBackLinks<CR>", { desc = "Backlinks" })
+    vim.keymap.set('n', '<leader>ob', ":ObsidianBacklinks<CR>", { desc = "Backlinks" })
     vim.keymap.set('n', '<leader>oo', ":ObsidianFollowLink<CR>", { desc = "Onwards to link" })
     vim.keymap.set('n', '<leader>ox', ":ObsidianTag<CR>", { desc = "Tags" })
     vim.keymap.set('n', '<leader>oy', ":ObsidianYesterday<CR>", { desc = "Open yesterday's note" })

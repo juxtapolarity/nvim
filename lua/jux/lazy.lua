@@ -15,6 +15,14 @@ vim.opt.rtp:prepend(lazypath)
 -- local obsidian_directory = "/home/jux/obsidian/juxnotes"
 -- local obsidian_exists = vim.loop.fs_stat(obsidian_directory)
 
+-- Bootstrap lazy.nvim
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+  vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+end
+vim.opt.rtp:prepend(lazypath)
+
 local lazy = require('lazy')
 
 lazy.setup({
@@ -47,6 +55,15 @@ lazy.setup({
     -- undo history
     { 'mbbill/undotree', cmd = "UndotreeToggle" },
     { 'tpope/vim-fugitive', cmd = "Git" },
+    {
+      "debugloop/telescope-undo.nvim",
+      dependencies = { -- note how they're inverted to above example
+        {
+          "nvim-telescope/telescope.nvim",
+          dependencies = { "nvim-lua/plenary.nvim" },
+        },
+      },
+    },
 
     -- comments
     { 'numToStr/Comment.nvim', event = "BufRead" },
@@ -141,6 +158,7 @@ lazy.setup({
     {
         'github/copilot.vim',
         event = "VeryLazy",
+        cond = not vim.g.vscode,  -- Load Copilot only if not running in VSCode
     },
 
     {
@@ -193,6 +211,18 @@ lazy.setup({
             "MunifTanjim/nui.nvim",
         },
     },
+
+
+    {
+        "kylechui/nvim-surround",
+        version = "*", -- Use for stability; omit to use `main` branch for the latest features
+        event = "VeryLazy",
+        config = function()
+            require("nvim-surround").setup({
+                -- Configuration here, or leave empty to use defaults
+            })
+        end
+    }
     -- better command line
     -- {
     --   "folke/noice.nvim",
