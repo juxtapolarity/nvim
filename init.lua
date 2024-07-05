@@ -1,14 +1,24 @@
--- local username = os.getenv("USERNAME")
-require("juls")
+-- Get the username dynamically
+local username = "jux"
+
+-- Load user-specific configuration
+local user_config_status, user_config_err = pcall(require, username)
+if not user_config_status then
+    print(string.format("Error loading user config: %s", user_config_err))
+end
 
 if vim.g.vscode then
 else
     -- Equivalent to 'syntax enable'
     vim.cmd('syntax enable')
 
-    -- Equivalent to 'set runtimepath+=~/.vim/colors/tokyonight-vim'
-    vim.opt.runtimepath:append("~/AppData/Local/nvim/colors/tokyonight-vim")
-    -- vim.opt.runtimepath:append(vim.fn.stdpath('config') .. '\\colors\\tokyonight-vim')
+    if vim.fn.has('win32') == 1 then
+        -- Windows specific runtime path
+        vim.opt.runtimepath:append("~/AppData/Local/nvim/colors/tokyonight-vim")
+    else
+        -- Unix specific runtime path
+        vim.opt.runtimepath:append("~/.config/nvim/colors/tokyonight-vim")
+    end
 
     -- Equivalent to 'set termguicolors'
     vim.opt.termguicolors = true
@@ -23,7 +33,5 @@ else
     vim.cmd('colorscheme tokyonight')
 end
 
--- Load lazy.nvim
-local lazypath = vim.fn.stdpath("data") .. "/site/pack/lazy/start/lazy.nvim"
-vim.opt.rtp:prepend(lazypath)
-require("juls.lazy")
+-- Load lazy.nvim setup
+require(username .. ".lazy")

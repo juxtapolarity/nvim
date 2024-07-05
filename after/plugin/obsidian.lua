@@ -9,7 +9,8 @@ if ok then
         workspaces = {
           {
             name = "juxnotes",
-            path = "~/obsidian/juxnotes",
+            path = "/mnt/c/users/juls/obsidian/juxnotes",
+            -- path = "~/obsidian/juxnotes",
           },
         },
 
