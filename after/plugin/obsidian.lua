@@ -74,6 +74,12 @@ if ok then
         },
 
 
+        -- Optional, customize how URLs are followed.
+        ---@param url string
+        follow_url_func = function(url)
+            -- Open the URL in Google Chrome on Windows.
+            vim.fn.jobstart({"start", "chrome", url})
+        end,
 
         -- Optional, customize how note IDs are generated given an optional title.
         ---@param title string|?
