@@ -3,14 +3,20 @@ if vim.g.vscode then
     return
 end
 
+local vault_path
+if vim.fn.has('win32') == 1 then
+    vault_path = "~/obsidian/juxnotes"
+else
+    vault_path = "/mnt/c/users/juls/obsidian/juxnotes"
+end
+
 local ok, obsidian = pcall(require, 'obsidian')
 if ok then
     obsidian.setup({
         workspaces = {
           {
             name = "juxnotes",
-            path = "/mnt/c/users/juls/obsidian/juxnotes",
-            -- path = "~/obsidian/juxnotes",
+            path = vault_path,
           },
         },
 
@@ -81,6 +87,17 @@ if ok then
             -- Open the URL in Google Chrome on Windows.
             vim.fn.jobstart({"start", "chrome", url})
         end,
+
+        -- Custom command to open Obsidian in Windows
+        vim.api.nvim_create_user_command('ObsidianOpenWindows', function()
+            local open_cmd
+            if vim.fn.has('win32') == 1 then
+                open_cmd = 'start obsidian'
+            else
+                open_cmd = 'wslview obsidian://open'
+            end
+            vim.fn.system(open_cmd)
+        end, {}),
 
         -- Optional, customize how note IDs are generated given an optional title.
         ---@param title string|?
