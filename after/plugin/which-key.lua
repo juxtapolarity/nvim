@@ -10,6 +10,7 @@ if ok then
     wk.register({
         d = { name = "debug" },
         f = { name = "file" },
+        g = { name = "git" },
         h = { name = "harpoon" },
         o = { name = "obsidian" },
         T = { name = "trouble" },
