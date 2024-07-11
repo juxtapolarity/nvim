@@ -31,6 +31,12 @@ else
     if theme == "tokyogogh" then
         vim.cmd('colorscheme tokyogogh')
 
+        -- Apply custom highlights
+        vim.cmd([[highlight Function guifg=#ad60f4]])
+        vim.cmd([[highlight Type guifg=#ad60f4]])
+        vim.cmd([[highlight pythonDocstring guifg=#444B6A]])
+        vim.cmd([[highlight String guifg=#ad8ee6]])
+        vim.cmd([[highlight Identifier guifg=#444B6A]])
     else
         -- Equivalent to 'let g:tokyonight_style = 'night'
         vim.g.tokyonight_style = 'night'
