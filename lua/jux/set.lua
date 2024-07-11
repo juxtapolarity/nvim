@@ -31,6 +31,7 @@ vim.opt.updatetime = 50
 
 -- conceal level
 vim.opt.conceallevel = 2
+
 -- color column (the vertical line)
--- vim.opt.colorcolumn = "80"
+vim.opt.colorcolumn = "120"
 end

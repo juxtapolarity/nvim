@@ -36,7 +36,15 @@ else
         vim.cmd([[highlight Type guifg=#ad60f4]])
         vim.cmd([[highlight pythonDocstring guifg=#444B6A]])
         vim.cmd([[highlight String guifg=#ad8ee6]])
-        vim.cmd([[highlight Identifier guifg=#444B6A]])
+        vim.cmd([[highlight Identifier guifg=#E86F86]])
+
+        -- Treesitter highlights for specific variables
+        vim.cmd([[highlight @variable guifg=#E86F86]])
+        vim.cmd([[highlight @namespace guifg=#E85349]])
+        vim.cmd([[highlight @import guifg=#E85349]])
+
+        -- custom colorcolumn color
+        vim.cmd("highlight ColorColumn ctermbg=lightgrey guibg=#444B6A")
     else
         -- Equivalent to 'let g:tokyonight_style = 'night'
         vim.g.tokyonight_style = 'night'

@@ -152,13 +152,13 @@ lazy.setup({
     {
         "folke/zen-mode.nvim",
         cmd = "ZenMode",
-        config = function()
-            require('zen-mode').setup({
-                window = {
-                    width = .65 -- width will be 65% of the editor width
-                }
-            })
-        end,
+        -- config = function()
+        --     require('zen-mode').setup({
+        --         window = {
+        --             width = .65 -- width will be 65% of the editor width
+        --         }
+        --     })
+        -- end,
     },
 
     -- GitHub Copilot

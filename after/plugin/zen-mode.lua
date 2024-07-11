@@ -1,22 +1,21 @@
--- -- Check if VSCode exists
--- if vim.g.vscode then
---     return
--- end
---
--- vim.defer_fn(function()
---     local ok, zen_mode = pcall(require, 'zen-mode')
---     if ok then
---         -- Set keymap for zen-mode
---         vim.keymap.set("n", "<leader>z", ":ZenMode<CR>", { desc = "Toggle Zen Mode" })
---     else
---         vim.notify('Failed to load zen-mode', vim.log.levels.ERROR)
---     end
--- end, 0)
--- check if VSCode exists
+-- Check if VSCode exists
 if vim.g.vscode then
     return
 end
 
--- Set keymap for zen-mode
-vim.keymap.set("n", "<leader>z", ":ZenMode<CR>", { desc = "Toggle Zen Mode" })
+local ok, zen_mode = pcall(require, 'zen-mode')
+if ok then
 
+    local opts = {
+        window = {
+            backdrop = .7,
+            width = .4,
+        },
+    }
+    zen_mode.setup(opts)
+
+    -- Set keymap for zen-mode
+    vim.keymap.set("n", "<leader>z", ":ZenMode<CR>", { desc = "Toggle Zen Mode" })
+else
+    vim.notify('Failed to load zen-mode', vim.log.levels.ERROR)
+end
