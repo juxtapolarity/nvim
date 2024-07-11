@@ -47,7 +47,11 @@ lazy.setup({
 
     -- undo history
     { 'mbbill/undotree', cmd = "UndotreeToggle" },
+
+    -- git
     { 'tpope/vim-fugitive', cmd = "Git" },
+    { 'lewis6991/gitsigns.nvim' },
+
     {
       "debugloop/telescope-undo.nvim",
       dependencies = { -- note how they're inverted to above example
