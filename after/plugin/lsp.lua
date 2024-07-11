@@ -21,6 +21,15 @@ require("mason").setup()
 -- Setup language servers.
 local lspconfig = require('lspconfig')
 lspconfig.pyright.setup {}
+lspconfig.matlab_ls.setup {
+  cmd = { "matlab-language-server", "--stdio" },
+  filetypes = { "matlab" },
+  settings = {
+    matlab = {
+      matlabExecutablePath = "C:\\Program Files\\MATLAB\\R2022a\\bin\\matlab"
+    }
+  }
+}
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions

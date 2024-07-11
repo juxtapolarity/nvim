@@ -2,7 +2,8 @@
 if vim.g.vscode then
     return
 end
-ok, telescope = pcall(require, 'telescope')
+local _, telescope = pcall(require, 'telescope')
+local ok_dap, dap = pcall(require, 'dap')
 telescope.load_extension("ascii")
 telescope.load_extension("undo")
 
@@ -18,11 +19,15 @@ local opts = {
   },
 }
 telescope.setup(opts)
+if ok_dap then
+  telescope.load_extension("dap")
+end
 
 vim.keymap.set('n', '<leader>ff', ":Telescope find_files<CR>", { desc = "find files" })
 vim.keymap.set('n', '<leader>fg', ":Telescope live_grep<CR>", { desc = "live grep" })
 vim.keymap.set('n', '<leader>fb', ":Telescope buffers<CR>", { desc = "buffers" })
 vim.keymap.set('n', '<leader>fh', ":Telescope help_tags<CR>", { desc = "help tags" })
+vim.keymap.set('n', '<leader>fs', ":Telescope lsp_document_symbols<CR>", { desc = "document symbols" })
 
 -- telescope for dap
 vim.keymap.set('n', '<leader>d?', ":Telescope dap commands<CR>", { desc = "commands [telescope]" })

@@ -18,13 +18,14 @@ vim.opt.rtp:prepend(lazypath)
 local lazy = require('lazy')
 
 lazy.setup({
+
     -- fuzzy finder
     {
         'nvim-telescope/telescope.nvim',
         cmd = "Telescope",
         tag = '0.1.8',
-        dependencies = { 
-            { 'nvim-lua/plenary.nvim', lazy = true }, 
+        dependencies = {
+            { 'nvim-lua/plenary.nvim', lazy = true },
             { 'nvim-lua/popup.nvim', lazy = true },
         },
         config = function()
@@ -56,6 +57,13 @@ lazy.setup({
         },
       },
     },
+
+    -- dap
+    { 'nvim-telescope/telescope-dap.nvim' },
+    { "mfussenegger/nvim-dap" },
+    { "rcarriga/nvim-dap-ui", dependencies = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"} },
+    { "mfussenegger/nvim-dap-python" },
+    { "theHamsta/nvim-dap-virtual-text" },
 
     -- comments
     { 'numToStr/Comment.nvim', event = "BufRead" },
@@ -168,14 +176,6 @@ lazy.setup({
         -- Required.
         "nvim-lua/plenary.nvim",
       },
-      -- opts = {
-      --   workspaces = {
-      --     {
-      --       name = "juxnotes",
-      --       path = "~/obsidian/juxnotes",
-      --     },
-      --   },
-      -- },
     },
 
     {
@@ -185,14 +185,6 @@ lazy.setup({
         require('dashboard').setup {
           -- config
         }
-        -- Ensure the dashboard is shown on startup
-        -- vim.api.nvim_create_autocmd('VimEnter', {
-        --   callback = function()
-        --     if vim.fn.argc() == 0 then
-        --       vim.cmd('Dashboard')
-        --     end
-        --   end
-        -- })
       end,
       dependencies = { {'nvim-tree/nvim-web-devicons'}}
     },
@@ -214,22 +206,8 @@ lazy.setup({
                 -- Configuration here, or leave empty to use defaults
             })
         end
-    }
-    -- better command line
-    -- {
-    --   "folke/noice.nvim",
-    --   event = "VeryLazy",
-    --   opts = {
-    --     -- add any options here
-    --   },
-    --   dependencies = {
-    --     -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-    --     "MunifTanjim/nui.nvim",
-    --     -- OPTIONAL:
-    --     --   `nvim-notify` is only needed, if you want to use the notification view.
-    --     --   If not available, we use `mini` as the fallback
-    --     "rcarriga/nvim-notify",
-    --     }
-    -- },
+    },
+
+
 })
 
