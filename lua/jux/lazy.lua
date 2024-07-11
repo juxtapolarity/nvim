@@ -19,6 +19,9 @@ local lazy = require('lazy')
 
 lazy.setup({
 
+    -- tokyonight gogh theme
+    { 'cesaralvarod/tokyogogh.nvim', lazy=false, priority=1000 },
+
     -- fuzzy finder
     {
         'nvim-telescope/telescope.nvim',
