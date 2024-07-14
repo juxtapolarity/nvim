@@ -34,7 +34,10 @@ else
         -- Apply custom highlights
         vim.cmd([[highlight Function guifg=#ad60f4]])
         vim.cmd([[highlight Type guifg=#ad60f4]])
-        vim.cmd([[highlight pythonDocstring guifg=#444B6A]])
+        vim.cmd([[highlight Comment guifg=#444B6A]])
+        -- vim.cmd([[highlight SpecialComment guifg=#444B6A]])
+        -- vim.cmd([[highlight pythonDocstring guifg=#444B6A]])
+        -- vim.cmd([[highlight @comment.documentation guifg=#444B6A]])
         vim.cmd([[highlight String guifg=#ad8ee6]])
         vim.cmd([[highlight Identifier guifg=#E86F86]])
 
@@ -45,6 +48,10 @@ else
 
         -- custom colorcolumn color
         vim.cmd("highlight ColorColumn ctermbg=lightgrey guibg=#444B6A")
+
+        -- custom highlight for docstrings
+        -- vim.cmd [[ highlight link @docstring Docstring ]]
+        -- vim.cmd([[highlight Docstring guifg=#FF5733]])
     else
         -- Equivalent to 'let g:tokyonight_style = 'night'
         vim.g.tokyonight_style = 'night'
