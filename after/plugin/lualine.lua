@@ -11,6 +11,19 @@ vim.defer_fn(function()
     custom_ayu_mirage.visual.a.bg = '#9ECE6A'
     custom_ayu_mirage.command.a.bg = '#ad60f4'
 
+    -- DAP status function
+    local dap_status = {
+      function()
+        local dap = require('dap')
+        if dap.session() then
+          return ' Debugging'
+        else
+          return ''
+        end
+      end,
+      color = { fg = '#61afef', gui = 'bold' },
+    }
+
     require('lualine').setup {
       options = {
         icons_enabled = true,
@@ -33,7 +46,7 @@ vim.defer_fn(function()
       sections = {
         lualine_a = {'mode'},
         lualine_b = {'branch', 'diff', 'diagnostics'},
-        lualine_c = {'filename'},
+        lualine_c = {'filename', dap_status},
         lualine_x = {{ 'swenv', icon = '' },'encoding', 'fileformat', 'filetype'},
         lualine_y = {'progress'},
         lualine_z = {'location'}
@@ -52,3 +65,4 @@ vim.defer_fn(function()
       extensions = {}
     }
 end, 0)
+

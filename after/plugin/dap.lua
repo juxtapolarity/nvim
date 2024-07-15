@@ -34,17 +34,18 @@ require("cmp").setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {
   },
 })
 
-vim.fn.sign_define('DapBreakpoint',
-    {
-        text='🔴', -- nerdfonts icon here
-        texthl='DapBreakpointSymbol',
-        linehl='DapBreakpoint',
-        numhl='DapBreakpoint'
-    })
-vim.fn.sign_define('DapStopped',
-    {
-        text='', -- nerdfonts icon here
-        texthl='DapStoppedSymbol',
-        linehl='DapBreakpoint',
-        numhl='DapBreakpoint'
-    })
+-- vim.fn.sign_define('DapBreakpoint',
+--     {
+--         text='🔴', -- nerdfonts icon here
+--         texthl='DapBreakpointSymbol',
+--         linehl='DapBreakpoint',
+--         numhl='DapBreakpoint'
+--     })
+-- vim.fn.sign_define('DapStopped',
+--     {
+--         text='', -- nerdfonts icon here
+--         texthl='DapStoppedSymbol',
+--         linehl='DapBreakpoint',
+--         numhl='DapBreakpoint'
+--     })
+

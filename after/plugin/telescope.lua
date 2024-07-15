@@ -35,11 +35,12 @@ vim.keymap.set('n', '<leader>df', ":Telescope dap frames<CR>", { desc = "frames 
 vim.keymap.set('n', '<leader>dlb', ":Telescope dap list_breakpoints<CR>", { desc = "list breakpoints [telescope]" })
 vim.keymap.set('n', '<leader>dv', ":Telescope dap variables<CR>", { desc = "variables [telescope]" })
 
-vim.keymap.set('n', '<leader>di', function() require"dap.ui.widgets".hover() end)
-vim.keymap.set('n', '<leader>d?', function()
+-- ui widgets for dap
+vim.keymap.set('n', '<leader>di', function() require"dap.ui.widgets".hover() end, { desc = "hover [dap]" })
+vim.keymap.set('n', '<leader>dd', function()
     local widgets = require "dap.ui.widgets";
     widgets.centered_float(widgets.scopes)
-end)
+end, { desc = "scopes [dap]" })
 
 -- show keymaps
 vim.keymap.set('n', '<leader>m', ":Telescope keymaps<CR>", { desc = "show keymaps [telescope]" })
