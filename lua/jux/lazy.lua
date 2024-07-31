@@ -69,6 +69,7 @@ lazy.setup({
     { 'nvim-telescope/telescope-dap.nvim' },
     { "mfussenegger/nvim-dap" },
     { "rcarriga/nvim-dap-ui", dependencies = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"} },
+    { "rcarriga/cmp-dap" },
     { "mfussenegger/nvim-dap-python" },
     { "theHamsta/nvim-dap-virtual-text" },
 
@@ -215,6 +216,24 @@ lazy.setup({
         end
     },
 
+    -- git
+    {
+      "NeogitOrg/neogit",
+      dependencies = {
+        "nvim-lua/plenary.nvim",         -- required
+        "sindrets/diffview.nvim",        -- optional - Diff integration
 
+        -- Only one of these is needed, not both.
+        "nvim-telescope/telescope.nvim", -- optional
+      },
+      config = true
+    },
+
+    {
+      'stevearc/oil.nvim',
+      opts = {},
+      -- Optional dependencies
+      dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
+    }
 })
 
