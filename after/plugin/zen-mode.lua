@@ -9,7 +9,7 @@ if ok then
     local opts = {
         window = {
             backdrop = .7,
-            width = .4,
+            width = .6,
         },
     }
     zen_mode.setup(opts)
