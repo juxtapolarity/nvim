@@ -9,7 +9,8 @@ if ok then
     local opts = {
         window = {
             backdrop = .7,
-            width = .6,
+            width = 100,
+            -- width = .6,
         },
         plugins = {
             -- disable some global vim options (vim.o...)
