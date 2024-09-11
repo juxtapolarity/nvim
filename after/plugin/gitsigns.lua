@@ -9,8 +9,8 @@ if ok then
     gitsigns.setup({ })
 
     -- keymaps
-    vim.keymap.set("n", "<leader>gp", ":Gitsigns preview_hunk<CR>", { desc = "preview hunk" })
-    vim.keymap.set("n", "<leader>gj", ":Gitsigns next_hunk<CR>", { desc = "next hunk" })
-    vim.keymap.set("n", "<leader>gk", ":Gitsigns prev_hunk<CR>", { desc = "prev hunk" })
-    vim.keymap.set("n", "<leader>gb", ":Gitsigns toggle_current_line_blame<CR>", { desc = "blame line" })
+    vim.keymap.set("n", "<leader>Gp", ":Gitsigns preview_hunk<CR>", { desc = "preview hunk" })
+    vim.keymap.set("n", "<leader>Gj", ":Gitsigns next_hunk<CR>", { desc = "next hunk" })
+    vim.keymap.set("n", "<leader>Gk", ":Gitsigns prev_hunk<CR>", { desc = "prev hunk" })
+    vim.keymap.set("n", "<leader>Gb", ":Gitsigns toggle_current_line_blame<CR>", { desc = "blame line" })
 end

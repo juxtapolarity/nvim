@@ -12,7 +12,7 @@ if dap_ok then
     vim.keymap.set('n', '<F12>', function() dap.step_out() end, { desc = "step out [dap]" })
     vim.keymap.set('n', '<Leader>db', function() dap.toggle_breakpoint() end, { desc = "toggle breakpoint [dap]" })
     -- vim.keymap.set('n', '<Leader>dB', function() dap.set_breakpoint() end, { desc = "set breakpoint [dap]" })
-    vim.keymap.set('n', '<Leader>dlp', function() dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end)
+    vim.keymap.set('n', '<Leader>dL', function() dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end)
     vim.keymap.set('n', '<Leader>dr', function() dap.repl.open() end, { desc = "repl [dap]" })
     vim.keymap.set('n', '<Leader>dl', function() dap.run_last() end, { desc = "run last [dap]" })
     vim.keymap.set({'n', 'v'}, '<Leader>dh', function() require('dap.ui.widgets').hover() end, { desc = "hover [dap]" })

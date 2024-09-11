@@ -77,9 +77,11 @@ augroup END
 -- vim.api.nvim_set_hl(0, 'DapLogPoint', { ctermbg = 0, fg = '#61afef', bg = '#31353f' })
 -- vim.api.nvim_set_hl(0, 'DapStopped', { ctermbg = 0, fg = '#98c379', bg = '#31353f' })
 -- Reuse current SignColumn background (except for DapStoppedLine)
+vim.cmd("TransparentDisable")
 local sign_column_hl = vim.api.nvim_get_hl(0, { name = 'SignColumn' })
 local sign_column_bg = (sign_column_hl.bg ~= nil) and ('#%06x'):format(sign_column_hl.bg) or 'bg'
 local sign_column_ctermbg = (sign_column_hl.ctermbg ~= nil) and sign_column_hl.ctermbg or 'Black'
+vim.cmd("TransparentEnable")
 
 -- vim.api.nvim_set_hl(0, 'DapBreakpoint', { ctermbg=lightgrey, fg = '#993939', bg = '#31353f' })
 -- vim.api.nvim_set_hl(0, 'DapLogPoint', { ctermbg = 0, fg = '#61afef', bg = '#31353f' })

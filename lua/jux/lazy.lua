@@ -123,7 +123,8 @@ lazy.setup({
     },
 
     -- transparent
-    {'xiyaowong/transparent.nvim', event='VeryLazy'},
+    -- {'xiyaowong/transparent.nvim', event='VeryLazy'},
+    {'xiyaowong/transparent.nvim'},
 
     -- lualine
     {'nvim-lualine/lualine.nvim', event = "VeryLazy"},
@@ -234,6 +235,9 @@ lazy.setup({
       opts = {},
       -- Optional dependencies
       dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
-    }
+    },
+
+    -- tmux navigator
+    { "alexghergh/nvim-tmux-navigation" }
 })
 
