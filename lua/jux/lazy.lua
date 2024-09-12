@@ -234,6 +234,15 @@ lazy.setup({
       opts = {},
       -- Optional dependencies
       dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
+    },
+
+    -- multiline cursors
+    {
+        "smoka7/multicursors.nvim",
+        event = "VeryLazy",
+        dependencies = {
+            'nvimtools/hydra.nvim',
+        }
     }
 })
 
