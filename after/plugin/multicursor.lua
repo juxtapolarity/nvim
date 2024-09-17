@@ -2,7 +2,7 @@
 if vim.g.vscode then
     return
 end
-local _, multicursors = pcall(require, 'multicursors')
+-- local _, multicursors = pcall(require, 'multicursors')
 
 -- multicursors.setup()
 

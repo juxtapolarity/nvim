@@ -44,7 +44,7 @@ vim.keymap.set('n', '<leader>dd', function()
 end, { desc = "scopes [dap]" })
 
 -- show keymaps
-vim.keymap.set('n', '<leader>m', ":Telescope keymaps<CR>", { desc = "show keymaps [telescope]" })
+-- vim.keymap.set('n', '<leader>m', ":Telescope keymaps<CR>", { desc = "show keymaps [telescope]" })
 
 -- telescope undo
 vim.keymap.set('n', '<leader>u', ":Telescope undo<CR>", { desc = "telescope undo" })
