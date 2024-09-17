@@ -4,7 +4,7 @@ if vim.g.vscode then
 end
 local _, multicursors = pcall(require, 'multicursors')
 
-multicursors.setup()
+-- multicursors.setup()
 
 -- keys
 -- vim.keymap.set('n', '<leader>m', ":Telescope find_files<CR>", { desc = "find files" })
