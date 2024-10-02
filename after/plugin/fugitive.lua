@@ -4,5 +4,5 @@ if vim.g.vscode then
 end
 
 vim.defer_fn(function()
-    vim.keymap.set("n", "<leader>gs", vim.cmd.Git, { desc = "Git status" })
+    vim.keymap.set("n", "<leader>Gs", vim.cmd.Git, { desc = "Git status" })
 end, 0)

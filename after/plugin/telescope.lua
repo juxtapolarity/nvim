@@ -6,29 +6,61 @@ local _, telescope = pcall(require, 'telescope')
 local ok_dap, dap = pcall(require, 'dap')
 telescope.load_extension("ascii")
 telescope.load_extension("undo")
--- telescope.load_extension("project")
+telescope.load_extension("projects")
 
 local opts = {
-  extensions = {
-    undo = {
-      side_by_side = true,
-      layout_strategy = "vertical",
-      layout_config = {
-        preview_height = 0.8,
-      },
+    defaults = {
+        path_display = { "truncate" },  -- Truncate the left part of long paths
+        layout_config = {
+            horizontal = {
+                preview_width = 0.5, -- adjust to fit more filename text if necessary
+            },
+        },
     },
-  },
+    extensions = {
+        undo = {
+            side_by_side = true,
+            layout_strategy = "vertical",
+            layout_config = {
+                preview_height = 0.8,
+            },
+        },
+    },
 }
 telescope.setup(opts)
 if ok_dap then
   telescope.load_extension("dap")
 end
 
+-- Define the search_in_buffers function globally
+_G.search_in_buffers = function()
+  -- Collect the contents of all open buffers
+  local buffers = {}
+  for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.api.nvim_buf_is_loaded(bufnr) then
+      local buffer_name = vim.api.nvim_buf_get_name(bufnr)
+      if buffer_name ~= "" then
+        table.insert(buffers, buffer_name)
+      end
+    end
+  end
+
+  -- Use vimgrep to search through these buffers
+  require('telescope.builtin').grep_string({
+    search = vim.fn.input("Grep For > "),
+    search_dirs = buffers,
+  })
+end
+
+-- Create a keymap for this function
+vim.keymap.set('n', '<leader>fbg', "<cmd>lua search_in_buffers()<CR>", { desc = "grep in buffers" })
+
 vim.keymap.set('n', '<leader>ff', ":Telescope find_files<CR>", { desc = "find files" })
 vim.keymap.set('n', '<leader>fg', ":Telescope live_grep<CR>", { desc = "live grep" })
-vim.keymap.set('n', '<leader>fb', ":Telescope buffers<CR>", { desc = "buffers" })
+vim.keymap.set('n', '<leader>fbf', ":Telescope buffers<CR>", { desc = "buffers" })
 vim.keymap.set('n', '<leader>fh', ":Telescope help_tags<CR>", { desc = "help tags" })
 vim.keymap.set('n', '<leader>fs', ":Telescope lsp_document_symbols<CR>", { desc = "document symbols" })
+vim.keymap.set('n', '<leader>fp', ":Telescope projects<CR>", { desc = "projects" })
 
 -- telescope for dap
 vim.keymap.set('n', '<leader>d?', ":Telescope dap commands<CR>", { desc = "commands [telescope]" })
@@ -48,3 +80,4 @@ end, { desc = "scopes [dap]" })
 
 -- telescope undo
 vim.keymap.set('n', '<leader>u', ":Telescope undo<CR>", { desc = "telescope undo" })
+

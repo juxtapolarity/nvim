@@ -123,7 +123,8 @@ lazy.setup({
     },
 
     -- transparent
-    {'xiyaowong/transparent.nvim', event='VeryLazy'},
+    -- {'xiyaowong/transparent.nvim', event='VeryLazy'},
+    {'xiyaowong/transparent.nvim'},
 
     -- lualine
     {'nvim-lualine/lualine.nvim', event = "VeryLazy"},
@@ -226,6 +227,7 @@ lazy.setup({
         -- Only one of these is needed, not both.
         "nvim-telescope/telescope.nvim", -- optional
       },
+      event = "VeryLazy",
       config = true
     },
 
@@ -238,21 +240,24 @@ lazy.setup({
 
     -- multiline cursors
     {
-        "smoka7/multicursors.nvim",
-        event = "VeryLazy",
-        dependencies = {
-            'nvimtools/hydra.nvim',
-        },
-        opts = {},
-        cmd = { 'MCstart', 'MCvisual', 'MCclear', 'MCpattern', 'MCvisualPattern', 'MCunderCursor' },
-        keys = {
-            {
-                mode = { 'v', 'n' },
-                '<Leader>m',
-                '<cmd>MCstart<cr>',
-                desc = 'Create a selection for selected text or word under the cursor',
-            },
-        },
+        "jake-stewart/multicursor.nvim",
+        branch = "1.0",
+    },
+
+    -- tmux navigator
+    { "alexghergh/nvim-tmux-navigation" },
+
+    -- projects
+    { "ahmedkhalf/project.nvim" },
+
+    -- another project manager: conduct
+    {
+        "aaditeynair/conduct.nvim",
+        dependencies = "nvim-lua/plenary.nvim",
+    },
+
+    {
+      "otavioschwanck/arrow.nvim",
     }
 })
 

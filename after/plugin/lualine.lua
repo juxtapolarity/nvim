@@ -24,6 +24,8 @@ vim.defer_fn(function()
       color = { fg = '#61afef', gui = 'bold' },
     }
 
+    local statusline = require('arrow.statusline')
+
     require('lualine').setup {
       options = {
         icons_enabled = true,
@@ -45,7 +47,16 @@ vim.defer_fn(function()
       },
       sections = {
         lualine_a = {'mode'},
-        lualine_b = {'branch', 'diff', 'diagnostics'},
+        lualine_b = {'branch', 'diff', 'diagnostics',
+        {
+          function()
+            return require('arrow.statusline').text_for_statusline_with_icons()
+          end,
+          cond = function()
+            return require('arrow.statusline').is_on_arrow_file() ~= nil
+          end
+        }
+      },
         lualine_c = {'filename', dap_status},
         lualine_x = {{ 'swenv', icon = '' },'encoding', 'fileformat', 'filetype'},
         lualine_y = {'progress'},

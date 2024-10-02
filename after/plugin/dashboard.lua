@@ -31,7 +31,7 @@ if ok then
              {
                icon = ' ',
                desc = 'Find Dotfiles',
-               key = 'd',
+               key = '.',
                keymap = 'SPC f d',
                key_format = ' %s', -- remove default surrounding `[]`
                action = 'lua print(3)'
