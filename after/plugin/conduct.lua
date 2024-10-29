@@ -18,4 +18,10 @@ conduct.setup({
         "ConductProjectDeleteSession",
         "ConductProjectRenameSession",
     },
+    hooks = {
+        after_session_load = function()
+            require("arrow.git").refresh_git_branch() -- Use only if separated_by_branch is true
+            require("arrow.persist").load_cache_file()
+        end,
+    }
 })

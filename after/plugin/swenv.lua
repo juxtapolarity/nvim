@@ -11,8 +11,8 @@ vim.defer_fn(function()
             notification = false,  -- Disable notification messages
         })
 
-        vim.keymap.set('n', '<leader>cp', function() require('swenv.api').pick_venv() end, { desc = "pick env [conda]" })
-        vim.keymap.set('n', '<leader>cs', function() require('swenv.api').get_current_venv() end, { desc = "show current env" })
+        vim.keymap.set('n', '<leader>Cp', function() require('swenv.api').pick_venv() end, { desc = "pick env [conda]" })
+        vim.keymap.set('n', '<leader>Cs', function() require('swenv.api').get_current_venv() end, { desc = "show current env" })
     else
         vim.notify('Failed to load swenv', vim.log.levels.ERROR)
     end

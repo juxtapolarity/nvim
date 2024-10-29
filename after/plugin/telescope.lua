@@ -60,7 +60,8 @@ vim.keymap.set('n', '<leader>fg', ":Telescope live_grep<CR>", { desc = "live gre
 vim.keymap.set('n', '<leader>fbf', ":Telescope buffers<CR>", { desc = "buffers" })
 vim.keymap.set('n', '<leader>fh', ":Telescope help_tags<CR>", { desc = "help tags" })
 vim.keymap.set('n', '<leader>fs', ":Telescope lsp_document_symbols<CR>", { desc = "document symbols" })
-vim.keymap.set('n', '<leader>fp', ":Telescope projects<CR>", { desc = "projects" })
+vim.keymap.set('n', '<leader>cp', ":Telescope conduct projects<CR>", { desc = "projects" })
+vim.keymap.set('n', '<leader>cs', ":Telescope conduct sessions<CR>", { desc = "sessions" })
 
 -- telescope for dap
 vim.keymap.set('n', '<leader>d?', ":Telescope dap commands<CR>", { desc = "commands [telescope]" })
