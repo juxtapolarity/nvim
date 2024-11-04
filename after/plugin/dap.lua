@@ -74,6 +74,11 @@ dap.configurations.python = {
 --   },
 -- }
 
+-- REPL
+vim.keymap.set('n', '<leader>dr', function()
+    require("dap").repl.toggle()
+end, { desc = "Toggle REPL" })
+
 require("cmp").setup({
   enabled = function()
     return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
