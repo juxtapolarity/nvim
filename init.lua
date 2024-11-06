@@ -68,7 +68,7 @@ end
 vim.cmd([[
 augroup markdown
   autocmd!
-  autocmd FileType markdown setlocal textwidth=80
+  autocmd FileType markdown setlocal textwidth=79
 augroup END
 ]])
 
