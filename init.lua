@@ -100,80 +100,38 @@ vim.fn.sign_define('DapBreakpointRejected', { text=' ', texthl='DapBreakpoint
 vim.fn.sign_define('DapLogPoint', { text=' ', texthl='DapLogPoint' })
 vim.fn.sign_define('DapStopped', { text=' ', texthl='DapStopped', linehl='DapCurrentLineBg'})
 
--- ----------------------------------------------------------------------------
--- Test: combinning stopped and breakpoint sign
--- ----------------------------------------------------------------------------
--- local dap = require('dap')
---
--- -- Define highlight and signs for combined stopped and breakpoint scenario
--- vim.api.nvim_set_hl(0, 'DapStoppedBreakpoint', { ctermbg = sign_column_ctermbg, fg = '#e06c75', bg = yellow })
--- vim.fn.sign_define('DapStoppedBreakpoint', { text = '', texthl = 'DapStoppedBreakpoint', linehl = 'DapCurrentLineBg' })
---
--- -- Function to update sign based on DAP stopped status and breakpoint
--- local function update_stopped_breakpoint_sign()
---     local session = require('dap').session()
---     if not session then
---         print("No active DAP session")
---         return
---     end
---
---     print("DAP session active, proceeding to list breakpoints")
---
---     -- Populate the quickfix list with breakpoints
---     require('dap').list_breakpoints()
---     print("Breakpoints listed in quickfix")
---
---     -- Wait a brief moment to ensure quickfix list is populated
---     vim.defer_fn(function()
---         -- Retrieve the current buffer and line
---         local buf = vim.api.nvim_get_current_buf()
---         local line = vim.fn.line('.')  -- 1-indexed for quickfix comparison
---
---         print("Current buffer ID:", buf, "Current line:", line)
---
---         -- Retrieve quickfix list items
---         local quickfix_items = vim.fn.getqflist()
---         if not quickfix_items or #quickfix_items == 0 then
---             print("Quickfix list is empty or not populated")
---             return
---         end
---
---         print("Quickfix list items:", vim.inspect(quickfix_items))
---
---         -- Check for a matching breakpoint in the quickfix list by buffer ID
---         local has_breakpoint = false
---         for _, item in ipairs(quickfix_items) do
---             print("Checking quickfix item - Buffer ID:", item.bufnr, "Line:", item.lnum)
---             if item.bufnr == buf and item.lnum == line then
---                 has_breakpoint = true
---                 print("Found matching breakpoint in quickfix list at line:", line)
---                 break
---             end
---         end
---
---         -- Clear any existing signs on this line using a unique ID
---         vim.fn.sign_unplace('DapSigns', { buffer = buf, id = line + 1000 })
---         print("Cleared existing signs on line:", line)
---
---         -- Place the correct sign based on breakpoint presence, using a unique ID
---         if has_breakpoint then
---             print("Placing DapStoppedBreakpoint sign on line:", line)
---             vim.fn.sign_place(line + 1000, 'DapSigns', 'DapStoppedBreakpoint', buf, { lnum = line })
---         else
---             print("Placing DapStopped sign on line:", line)
---             vim.fn.sign_place(line + 1000, 'DapSigns', 'DapStopped', buf, { lnum = line })
---         end
---     end, 50)  -- Adjust delay if needed for quickfix population
--- end
---
--- -- Listener to update the sign when DAP stops
--- dap.listeners.after.event_stopped["dap_stopped_breakpoint"] = function()
---     print("DAP stopped event triggered")
---     update_stopped_breakpoint_sign()
--- end
---
--- -- Optional: Clear the combined sign when DAP continues
--- dap.listeners.before.event_continued["clear_dap_stopped_breakpoint"] = function()
---     print("DAP continue event triggered, clearing DapStoppedBreakpoint signs")
---     vim.fn.sign_unplace('DapSigns', { buffer = vim.api.nvim_get_current_buf() })
--- end
+-- markdown
+-- vim.cmd([[
+--   highlight MyCodeBlockBackground guibg=#141421
+-- ]])
+-- local _, markdown = pcall(require, 'render-markdown')
+-- markdown.setup({
+--     heading = {
+--         enabled = false,
+--     },
+--     paragraph = {
+--         enabled = false,
+--     },
+--     code = {
+--         enabled = true,
+--         width = 'block',
+--         min_width = 79,
+--         highlight = 'MyCodeBlockBackground',
+--         highlight_inline = 'MyCodeBlockBackground',
+--     },
+--     dash = {
+--         enabled = false,
+--     },
+--     bullet = {
+--         enabled = false,
+--     },
+--     checkbox = {
+--         enabled = false,
+--     },
+--     quote = {
+--         enabled = false,
+--     },
+--     pipe_table = {
+--         enabled = true,
+--     },
+-- })
