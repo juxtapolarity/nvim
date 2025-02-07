@@ -8,6 +8,7 @@ local _, arrow = pcall(require, 'arrow')
 local opts = {
     show_icons = true,
     leader_key = ',', -- Recommended to be a single key
+    save_key = "cwd",
     buffer_leader_key = 'm', -- Per Buffer Mappings
 }
 

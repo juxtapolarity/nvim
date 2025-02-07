@@ -6,7 +6,7 @@ local _, telescope = pcall(require, 'telescope')
 local ok_dap, dap = pcall(require, 'dap')
 telescope.load_extension("ascii")
 telescope.load_extension("undo")
-telescope.load_extension("projects")
+-- telescope.load_extension("projects")
 
 local opts = {
     defaults = {

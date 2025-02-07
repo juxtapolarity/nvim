@@ -250,7 +250,7 @@ lazy.setup({
     { "alexghergh/nvim-tmux-navigation" },
 
     -- projects
-    { "ahmedkhalf/project.nvim" },
+    -- { "ahmedkhalf/project.nvim" },
 
     -- another project manager: conduct
     {
