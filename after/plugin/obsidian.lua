@@ -151,6 +151,16 @@ if ok then
     vim.keymap.set('n', '<leader>oz', ":ObsidianTomorrow<CR>", { desc = "Open tomorrow's note" })
     vim.keymap.set('n', '<leader>oi', ":ObsidianPasteImg<CR>", { desc = "Paste image" })
 
+    -- -- Custom colors for Markdown headings
+    -- vim.api.nvim_set_hl(0, "@markup.heading.1.markdown", { fg = "#ffb86c", bold = true })
+    -- vim.api.nvim_set_hl(0, "@markup.heading.2.markdown", { fg = "#8be9fd", bold = true })
+    -- vim.api.nvim_set_hl(0, "@markup.heading.3.markdown", { fg = "#50fa7b", italic = true })
+    --
+    -- -- Optional fallback for non-Treesitter highlight groups
+    -- vim.api.nvim_set_hl(0, "markdownH1", { fg = "#ffb86c", bold = true })
+    -- vim.api.nvim_set_hl(0, "markdownH2", { fg = "#8be9fd", bold = true })
+    -- vim.api.nvim_set_hl(0, "markdownH3", { fg = "#50fa7b", italic = true })
+
     vim.notify('obsidian setup complete', vim.log.levels.INFO)
 else
     vim.notify('Failed to load obsidian', vim.log.levels.ERROR)

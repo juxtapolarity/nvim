@@ -100,6 +100,17 @@ vim.fn.sign_define('DapBreakpointRejected', { text=' ', texthl='DapBreakpoint
 vim.fn.sign_define('DapLogPoint', { text=' ', texthl='DapLogPoint' })
 vim.fn.sign_define('DapStopped', { text=' ', texthl='DapStopped', linehl='DapCurrentLineBg'})
 
+-- Custom colors for Markdown headings
+vim.api.nvim_set_hl(0, "@markup.heading.1.markdown", { fg = "#FF757F", bold = true })
+-- vim.api.nvim_set_hl(0, "@markup.heading.2.markdown", { fg = "#8be9fd", bold = true })
+vim.api.nvim_set_hl(0, "@markup.heading.3.markdown", { fg = "#E0AF68", bold = true, italic = true })
+
+-- Optional fallback for non-Treesitter highlight groups
+vim.api.nvim_set_hl(0, "markdownH1", { fg = "#FF757F", bold = true })
+-- vim.api.nvim_set_hl(0, "markdownH2", { fg = "#8be9fd", bold = true })
+vim.api.nvim_set_hl(0, "markdownH3", { fg = "#E0AF68", bold = true, italic = true })
+
+
 -- markdown
 -- vim.cmd([[
 --   highlight MyCodeBlockBackground guibg=#141421

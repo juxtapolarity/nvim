@@ -55,15 +55,21 @@ end
 -- Create a keymap for this function
 vim.keymap.set('n', '<leader>fbg', "<cmd>lua search_in_buffers()<CR>", { desc = "grep in buffers" })
 
-vim.keymap.set('n', '<leader>ff', function()
-  require('telescope.builtin').find_files({ cwd = vim.loop.cwd() })
-end, { desc = "Find files relative to current directory" })
-
-vim.keymap.set('n', '<leader>fg', function()
-  require('telescope.builtin').live_grep({ cwd = vim.loop.cwd() })
-end, { desc = "Live grep relative to current directory" })
+-- telescope for files
+-- vim.keymap.set('n', '<leader>ff', function()
+--   require('telescope.builtin').find_files({ cwd = vim.loop.cwd() })
+-- end, { desc = "Find files relative to current directory" })
+--
+-- vim.keymap.set('n', '<leader>fg', function()
+--   require('telescope.builtin').live_grep({ cwd = vim.loop.cwd() })
+-- end, { desc = "Live grep relative to current directory" })
 -- vim.keymap.set('n', '<leader>ff', ":Telescope find_files<CR>", { desc = "find files" })
 -- vim.keymap.set('n', '<leader>fg', ":Telescope live_grep<CR>", { desc = "live grep" })
+
+-- Use FzfLua for finding files
+vim.keymap.set('n', '<leader>ff', ":FzfLua files<CR>", { desc = "find files [fzf-lua]" })
+vim.keymap.set('n', '<leader>fg', ":FzfLua live_grep<CR>", { desc = "live grep [fzf-lua]" })
+
 vim.keymap.set('n', '<leader>fbf', ":Telescope buffers<CR>", { desc = "buffers" })
 vim.keymap.set('n', '<leader>fh', ":Telescope help_tags<CR>", { desc = "help tags" })
 vim.keymap.set('n', '<leader>fs', ":Telescope lsp_document_symbols<CR>", { desc = "document symbols" })
