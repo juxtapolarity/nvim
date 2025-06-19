@@ -7,6 +7,13 @@ if not user_config_status then
     print(string.format("Error loading user config: %s", user_config_err))
 end
 
+-- Debug filetype for buffer
+vim.api.nvim_create_autocmd({"BufWinEnter", "UIEnter"}, {
+  callback = function(args)
+    print("DEBUG filetype for buffer:", args.buf, vim.bo[args.buf].filetype)
+  end
+})
+
 -- Load lazy.nvim setup
 require(username .. ".lazy")
 

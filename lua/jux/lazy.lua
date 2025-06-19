@@ -25,11 +25,14 @@ lazy.setup({
     -- fuzzy finder
     {
         'nvim-telescope/telescope.nvim',
+        lazy = false,
         cmd = "Telescope",
         tag = '0.1.8',
         dependencies = {
-            { 'nvim-lua/plenary.nvim', lazy = true },
-            { 'nvim-lua/popup.nvim', lazy = true },
+            { 'nvim-lua/popup.nvim', lazy = false },
+            { 'nvim-lua/plenary.nvim', lazy = false },
+            -- { 'nvim-lua/plenary.nvim', lazy = true },
+            -- { 'nvim-lua/popup.nvim', lazy = true },
         },
         config = function()
             require('telescope').setup()
@@ -99,14 +102,57 @@ lazy.setup({
     { 'williamboman/mason-lspconfig.nvim', event = { 'BufRead', 'BufNewFile' }, dependencies = { 'williamboman/mason.nvim' } },
 
     -- cmp plugins
-    'hrsh7th/nvim-cmp',
-    'hrsh7th/cmp-nvim-lsp',
-    'hrsh7th/cmp-buffer',
-    'hrsh7th/cmp-path',
-    'hrsh7th/cmp-cmdline',
-    'hrsh7th/cmp-nvim-lsp-signature-help',
-    'L3MON4D3/LuaSnip',
-    'saadparwaiz1/cmp_luasnip',
+    { 'hrsh7th/nvim-cmp' },
+    { 'hrsh7th/cmp-nvim-lsp' },
+    { 'hrsh7th/cmp-buffer' },
+    { 'hrsh7th/cmp-path' },
+    { 'hrsh7th/cmp-cmdline' },
+    { 'hrsh7th/cmp-nvim-lsp-signature-help' },
+    { 'L3MON4D3/LuaSnip' },
+    { 'saadparwaiz1/cmp_luasnip' },
+    -- {
+    -- 'L3MON4D3/LuaSnip',
+    -- lazy = false, -- Force LuaSnip to load immediately
+    -- },
+    -- {
+    --     'saadparwaiz1/cmp_luasnip',
+    --     lazy = false, -- Load immediately to ensure cmp_luasnip initializes after LuaSnip
+    --     dependencies = { 'L3MON4D3/LuaSnip' },
+    -- },
+    -- {
+    --     'hrsh7th/nvim-cmp',
+    --     lazy = false, -- Load nvim-cmp immediately after LuaSnip and cmp_luasnip
+    --     dependencies = {
+    --         'L3MON4D3/LuaSnip',
+    --         'saadparwaiz1/cmp_luasnip',
+    --     },
+    -- },
+    -- {
+    --     'hrsh7th/cmp-nvim-lsp',
+    --     lazy = true, -- These plugins can load lazily as they don’t need to initialize first
+    --     dependencies = { 'hrsh7th/nvim-cmp' },
+    -- },
+    -- {
+    --     'hrsh7th/cmp-buffer',
+    --     lazy = true,
+    --     dependencies = { 'hrsh7th/nvim-cmp' },
+    -- },
+    -- {
+    --     'hrsh7th/cmp-path',
+    --     lazy = true,
+    --     dependencies = { 'hrsh7th/nvim-cmp' },
+    -- },
+    -- {
+    --     'hrsh7th/cmp-cmdline',
+    --     lazy = true,
+    --     dependencies = { 'hrsh7th/nvim-cmp' },
+    -- },
+    -- {
+    --     'hrsh7th/cmp-nvim-lsp-signature-help',
+    --     lazy = true,
+    --     dependencies = { 'hrsh7th/nvim-cmp' },
+    -- },
+
 
     -- file explorer
     {'nvim-tree/nvim-web-devicons', lazy = true},

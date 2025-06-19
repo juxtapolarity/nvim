@@ -3,6 +3,23 @@ if vim.g.vscode then
     return
 end
 
+-- Function to check if Obsidian is installed
+local function is_obsidian_installed()
+    if vim.fn.has('win32') == 1 then
+        -- Check for Obsidian on Windows
+        return vim.fn.executable('obsidian') == 1
+    else
+        -- Check for Obsidian on Linux/macOS
+        return vim.fn.system('which obsidian'):match('obsidian') ~= nil
+    end
+end
+
+-- Exit early if Obsidian is not installed
+if not is_obsidian_installed() then
+    vim.notify('Obsidian app not found, skipping obsidian.nvim setup', vim.log.levels.WARN)
+    return
+end
+
 local vault_path
 if vim.fn.has('win32') == 1 then
     vault_path = "~/obsidian/juxnotes"

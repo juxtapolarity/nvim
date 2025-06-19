@@ -12,7 +12,7 @@ if not snip_status_ok then
   return
 end
 
-require("luasnip/loaders/from_vscode").lazy_load()
+-- require("luasnip/loaders/from_vscode").lazy_load()
 
 -- set up backspace for tab completion
 local check_backspace = function()
