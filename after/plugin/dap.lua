@@ -39,9 +39,12 @@ end
 dap.configurations.python = {
   {
     type = 'python',
-    request = 'launch',
-    name = "Launch file",
-    program = "${file}",
+    request = 'attach',
+    name = "Attach (127.0.0.1:1024)",
+    connect = {
+      port = 1024,  -- The port you use in debugpy.listen()
+      host = "127.0.0.1",  -- Default to localhost
+    },
     pythonPath = function()
       return 'python'
     end,
@@ -50,16 +53,39 @@ dap.configurations.python = {
   {
     type = 'python',
     request = 'attach',
-    name = "Attach to process",
+    name = "Attach (127.0.0.1:2048)",
     connect = {
-      port = 38000,  -- The port you use in debugpy.listen()
+      port = 2048,  -- The port you use in debugpy.listen()
       host = "127.0.0.1",  -- Default to localhost
     },
     pythonPath = function()
       return 'python'
     end,
     console = "integratedTerminal",  -- Use integrated terminal to avoid popup
-  }
+  },
+  {
+    type = 'python',
+    request = 'attach',
+    name = "Attach (127.0.0.1:4096)",
+    connect = {
+      port = 4096,  -- The port you use in debugpy.listen()
+      host = "127.0.0.1",  -- Default to localhost
+    },
+    pythonPath = function()
+      return 'python'
+    end,
+    console = "integratedTerminal",  -- Use integrated terminal to avoid popup
+  },
+  {
+    type = 'python',
+    request = 'launch',
+    name = "Launch file",
+    program = "${file}",
+    pythonPath = function()
+      return 'python'
+    end,
+    console = "integratedTerminal",  -- Use integrated terminal to avoid popup
+  },
 }
 -- dap.configurations.python = {
 --   {
