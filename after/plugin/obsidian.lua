@@ -167,6 +167,7 @@ if ok then
     vim.keymap.set('n', '<leader>ot', ":ObsidianToday<CR>", { desc = "Open today's note" })
     vim.keymap.set('n', '<leader>oz', ":ObsidianTomorrow<CR>", { desc = "Open tomorrow's note" })
     vim.keymap.set('n', '<leader>oi', ":ObsidianPasteImg<CR>", { desc = "Paste image" })
+    vim.keymap.set('n', '<leader>oT', ":ObsidianTemplate<CR>", { desc = "Template" })
 
     -- -- Custom colors for Markdown headings
     -- vim.api.nvim_set_hl(0, "@markup.heading.1.markdown", { fg = "#ffb86c", bold = true })
