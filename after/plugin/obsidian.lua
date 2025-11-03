@@ -24,7 +24,8 @@ local vault_path
 if vim.fn.has('win32') == 1 then
     vault_path = "~/obsidian/juxnotes"
 else
-    vault_path = "~/obsidian/juxnotes"
+    -- vault_path = "~/obsidian/juxnotes"
+    vault_path = vim.fn.expand("~/obsidian/juxnotes")
 end
 
 local ok, obsidian = pcall(require, 'obsidian')
