@@ -25,23 +25,57 @@ vim.keymap.set("x", "<leader>p", [["_dP]])
 --     ["*"] = require("vim.ui.clipboard.osc52").paste("*"),
 -- }
 --   },
+-- Smart clipboard provider:
+-- 1) Wayland  -> wl-clipboard
+-- 2) X11      -> xclip
+-- 3) Headless/SSH/tmux -> OSC52
+
 local function has(cmd) return vim.fn.executable(cmd) == 1 end
-if has("xclip") then
-  vim.g.clipboard = {
-    name = "xclip",
-    copy = { ["+"] = "xclip -selection clipboard", ["*"] = "xclip -selection primary" },
-    paste = { ["+"] = "xclip -o -selection clipboard", ["*"] = "xclip -o -selection primary" },
-    cache_enabled = 1,
-  }
-else
-  -- Fallback to OSC52 (great over SSH and when tmux passthrough is set)
+local has_display = (vim.env.DISPLAY and #vim.env.DISPLAY > 0)
+                 or (vim.env.WAYLAND_DISPLAY and #vim.env.WAYLAND_DISPLAY > 0)
+local on_ssh = (vim.env.SSH_CONNECTION and #vim.env.SSH_CONNECTION > 0)
+            or (vim.env.SSH_TTY and #vim.env.SSH_TTY > 0)
+
+local function use_osc52()
   local ok, osc = pcall(require, "vim.ui.clipboard.osc52")
   if ok then
     vim.g.clipboard = {
       name = "OSC 52",
-      copy = { ["+"] = osc.copy("+"), ["*"] = osc.copy("*") },
+      copy  = { ["+"] = osc.copy("+"),  ["*"] = osc.copy("*") },
       paste = { ["+"] = osc.paste("+"), ["*"] = osc.paste("*") },
     }
+    return true
+  end
+  return false
+end
+
+if has_display then
+  -- Prefer Wayland if available
+  if vim.env.WAYLAND_DISPLAY and has("wl-copy") and has("wl-paste") then
+    vim.g.clipboard = {
+      name = "wl-clipboard",
+      copy  = { ["+"] = "wl-copy --foreground --type text/plain", ["*"] = "wl-copy --foreground --primary --type text/plain" },
+      paste = { ["+"] = "wl-paste --no-newline",                 ["*"] = "wl-paste --no-newline --primary" },
+      cache_enabled = 1,
+    }
+  -- Otherwise use X11 xclip
+  elseif has("xclip") then
+    vim.g.clipboard = {
+      name = "xclip",
+      copy  = { ["+"] = "xclip -selection clipboard", ["*"] = "xclip -selection primary" },
+      paste = { ["+"] = "xclip -o -selection clipboard", ["*"] = "xclip -o -selection primary" },
+      cache_enabled = 1,
+    }
+  else
+    -- Display exists but no clipboard utilities -> fall back to OSC52
+    if not use_osc52() then
+      vim.notify("No clipboard tool found; OSC52 module missing", vim.log.levels.WARN)
+    end
+  end
+else
+  -- No display (SSH/headless/tmux) -> OSC52
+  if not use_osc52() then
+    vim.notify("Headless but OSC52 module not available; clipboard disabled", vim.log.levels.WARN)
   end
 end
 
