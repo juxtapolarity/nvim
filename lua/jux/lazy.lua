@@ -97,23 +97,10 @@ lazy.setup({
     },
 
     -- lsp 
-    -- { 'neovim/nvim-lspconfig', event = { 'BufRead', 'BufNewFile' } },
-    -- { 'williamboman/mason.nvim', run = ":MasonUpdate", event = { 'BufRead', 'BufNewFile' } },
-    -- { 'williamboman/mason-lspconfig.nvim', event = { 'BufRead', 'BufNewFile' }, dependencies = { 'williamboman/mason.nvim' } },
-    -- { 'neovim/nvim-lspconfig', event = { 'BufRead', 'BufNewFile' } },
-    { 'neovim/nvim-lspconfig', version = '^2.0.0', event = { 'BufRead', 'BufNewFile' } },
     {
       'williamboman/mason.nvim',
-      version = '^1.0.0',
-      run = ':MasonUpdate',
-      event = { 'BufRead', 'BufNewFile' },
-    },
-
-    {
-      'williamboman/mason-lspconfig.nvim',
-      version = '^1.0.0',
-      event = { 'BufRead', 'BufNewFile' },
-      dependencies = { 'williamboman/mason.nvim' },
+      lazy = false,
+      build = ':MasonUpdate',
     },
 
     -- cmp plugins
