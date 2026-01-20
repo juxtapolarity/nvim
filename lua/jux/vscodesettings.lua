@@ -55,3 +55,7 @@ vim.cmd([[
 
 vim.keymap.set("n", "<C-d>", ":ScrollDown<CR>")
 vim.keymap.set("n", "<C-u>", ":ScrollUp<CR>")
+
+-- hover
+vim.api.nvim_set_keymap('n', '<leader>k', ":call VSCodeNotify('editor.debug.action.showDebugHover')<CR>", {silent = true})
+vim.api.nvim_set_keymap('n', '<leader>k', ":call VSCodeNotify('editor.action.showHover')<CR>", {silent = true})

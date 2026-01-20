@@ -12,7 +12,7 @@ if not snip_status_ok then
   return
 end
 
-require("luasnip/loaders/from_vscode").lazy_load()
+-- require("luasnip/loaders/from_vscode").lazy_load()
 
 -- set up backspace for tab completion
 local check_backspace = function()
@@ -73,35 +73,36 @@ cmp.setup({
         ['<C-Space>'] = cmp.mapping.complete(),
         ['<C-e>'] = cmp.mapping.abort(),
         ['<CR>'] = cmp.mapping.confirm({ select = true }), 
-        -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-        ["<Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-                cmp.select_next_item()
-            elseif luasnip.expandable() then
-                luasnip.expand()
-            elseif luasnip.expand_or_jumpable() then
-                luasnip.expand_or_jump()
-            elseif check_backspace() then
-                fallback()
-            else
-                fallback()
-            end
-        end, {
-        "i",
-        "s",
-    }),
-    ["<S-Tab>"] = cmp.mapping(function(fallback)
-        if cmp.visible() then
-            cmp.select_prev_item()
-        elseif luasnip.jumpable(-1) then
-            luasnip.jump(-1)
-        else
-            fallback()
-        end
-    end, {
-        "i",
-        "s",
-    }),
+        --
+    --     -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    --     ["<Tab>"] = cmp.mapping(function(fallback)
+    --         if cmp.visible() then
+    --             cmp.select_next_item()
+    --         elseif luasnip.expandable() then
+    --             luasnip.expand()
+    --         elseif luasnip.expand_or_jumpable() then
+    --             luasnip.expand_or_jump()
+    --         elseif check_backspace() then
+    --             fallback()
+    --         else
+    --             fallback()
+    --         end
+    --     end, {
+    --     "i",
+    --     "s",
+    -- }),
+    -- ["<S-Tab>"] = cmp.mapping(function(fallback)
+    --     if cmp.visible() then
+    --         cmp.select_prev_item()
+    --     elseif luasnip.jumpable(-1) then
+    --         luasnip.jump(-1)
+    --     else
+    --         fallback()
+    --     end
+    -- end, {
+    --     "i",
+    --     "s",
+    -- }),
     }),
     formatting = {
         fields = { "kind", "abbr", "menu" },
@@ -124,6 +125,7 @@ cmp.setup({
         { name = 'buffer' },
         { name = 'luasnip' },
         { name = 'nvim_lsp_signature_help' },
+        { name = 'path' },
     }, {
     })
 })
@@ -155,14 +157,14 @@ cmp.setup.cmdline(':', {
     })
 })
 
--- Set up lspconfig.
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
--- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
-require('lspconfig')['pyright'].setup {
-    capabilities = capabilities
-}
-require('lspconfig')['lua_ls'].setup {
-    capabilities = capabilities
-}
+-- -- Set up lspconfig.
+-- local capabilities = require('cmp_nvim_lsp').default_capabilities()
+-- -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
+-- require('lspconfig')['pyright'].setup {
+--     capabilities = capabilities
+-- }
+-- require('lspconfig')['lua_ls'].setup {
+--     capabilities = capabilities
+-- }
 
 

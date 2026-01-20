@@ -3,4 +3,6 @@ if vim.g.vscode then
     return
 end
 
-vim.keymap.set("n", "<leader>gs", vim.cmd.Git);
+vim.defer_fn(function()
+    vim.keymap.set("n", "<leader>Gs", vim.cmd.Git, { desc = "Git status" })
+end, 0)

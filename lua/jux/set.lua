@@ -12,7 +12,9 @@ vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
-vim.opt.smartindent = true
+-- vim.opt.smartindent = true
+vim.opt.smartindent = false
+vim.opt.autoindent = true
 
 -- searching
 vim.opt.hlsearch = false
@@ -29,6 +31,9 @@ vim.opt.isfname:append("@-@")
 -- fast update time
 vim.opt.updatetime = 50
 
+-- conceal level
+vim.opt.conceallevel = 2
+
 -- color column (the vertical line)
--- vim.opt.colorcolumn = "80"
+vim.opt.colorcolumn = "80"
 end
