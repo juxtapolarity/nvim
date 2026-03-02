@@ -212,6 +212,8 @@ lazy.setup({
     },
 
     -- GitHub Copilot
+    -- On Windows, requires:
+    -- $env:NODE_OPTIONS="--experimental-sqlite"
     {
         'github/copilot.vim',
         event = "VeryLazy",
