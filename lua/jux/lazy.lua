@@ -1,8 +1,8 @@
 -- This file can be loaded by calling `lua require('juls.lazy')` from your init.lua
 
--- Ensure lazy.nvim is available
--- vim.cmd [[packadd lazy.nvim]]
-
+-- ----------------------------------------------------------------------------
+-- Bootstrap
+-- ---------------------------------------------------------------------------
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -11,52 +11,257 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Check if the required Obsidian directory exists
--- local obsidian_directory = "/home/jux/obsidian/juxnotes"
--- local obsidian_exists = vim.loop.fs_stat(obsidian_directory)
-
+-- Load lazy.nvim
 local lazy = require('lazy')
 
+-- ============================================================================
+-- Load plugins with lazy.nvim
+-- ============================================================================
 lazy.setup({
 
-    -- tokyonight gogh theme
-    { 'cesaralvarod/tokyogogh.nvim', lazy=false, priority=1000 },
+    -- ------------------------------------------------------------------------
+    -- Colorscheme
+    -- ------------------------------------------------------------------------
 
-    -- fuzzy finder
-    {
-        'nvim-telescope/telescope.nvim',
-        lazy = false,
-        cmd = "Telescope",
-        tag = '0.1.8',
-        dependencies = {
-            { 'nvim-lua/popup.nvim', lazy = false },
-            { 'nvim-lua/plenary.nvim', lazy = false },
-            -- { 'nvim-lua/plenary.nvim', lazy = true },
-            -- { 'nvim-lua/popup.nvim', lazy = true },
-        },
+    -- tokyonight gogh theme
+    { 
+        'cesaralvarod/tokyogogh.nvim',
+        lazy=false,
+        priority=1000, 
         config = function()
-            require('telescope').setup()
+            vim.cmd.colorscheme("tokyogogh")
         end,
     },
 
+    ---------------------------------------------------------------------------
+    -- Transparent background
+    ---------------------------------------------------------------------------
+
+    -- transparent
+    {
+        'xiyaowong/transparent.nvim',
+        config = function()
+            require("jux.plugins.transparent")
+        end,
+    },
+    --
+    -- ------------------------------------------------------------------------
+    -- Zen mode
+    -- ------------------------------------------------------------------------
+
+    -- zen mode
+    {
+        "folke/zen-mode.nvim",
+        cmd = "ZenMode",
+        keys = function()
+            return require("jux.plugins.zen_mode").keys
+        end,
+        config = function()
+            require("jux.plugins.zen_mode").setup()
+        end,
+    },
+    --
+    -- ------------------------------------------------------------------------
+    -- Keybindings: reminder
+    -- ------------------------------------------------------------------------
+
+    -- which-key
+    {
+        "folke/which-key.nvim",
+        event = "VeryLazy",
+        config = function()
+            require("jux.plugins.which_key").setup()
+        end,
+    },
+
+    -- ------------------------------------------------------------------------
+    -- Statusline
+    -- ------------------------------------------------------------------------
+
+    -- lualine
+    {
+        "nvim-lualine/lualine.nvim",
+        event = "VeryLazy",
+        config = function()
+            require("jux.plugins.lualine").setup()
+        end,
+    },
+
+    -- ------------------------------------------------------------------------
+    -- Git
+    -- ------------------------------------------------------------------------
+
+    -- gitsigns
+    {
+        'lewis6991/gitsigns.nvim',
+        event = { "BufReadPre", "BufNewFile" },
+        config = function()
+            require("jux.plugins.gitsigns").setup()
+        end,
+    },
+
+    -- ------------------------------------------------------------------------
+    -- Comments
+    -- ------------------------------------------------------------------------
+    {
+        "numToStr/Comment.nvim",
+        event = "VeryLazy",
+        config = function()
+            require("jux.plugins.comment").setup()
+        end,
+    },
+
+    -- ------------------------------------------------------------------------
+    -- Code formatting
+    -- ------------------------------------------------------------------------
+
+    -- nvim-surround
+    {
+        "kylechui/nvim-surround",
+        version = "*",
+        event = "VeryLazy",
+        config = function()
+            require("jux.plugins.nvim_surround").setup()
+        end,
+    },
+
+    -- ------------------------------------------------------------------------
+    -- File explorer
+    -- ------------------------------------------------------------------------
+    {
+        "stevearc/oil.nvim",
+        cmd = "Oil",
+        keys = function()
+            return require("jux.plugins.oil").keys
+        end,
+        config = function()
+            require("jux.plugins.oil").setup()
+        end,
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+    },
+    -- ------------------------------------------------------------------------
+    -- Navigation
+    -- ------------------------------------------------------------------------
+
+    -- hop
+    {
+        "smoka7/hop.nvim",
+        cmd = { "HopWord", "HopChar1" },
+        keys = function()
+            return require("jux.plugins.hop").keys
+        end,
+        config = function()
+            require("jux.plugins.hop").setup()
+        end,
+    },
+
+    -- ------------------------------------------------------------------------
+    -- Buffer management
+    -- ------------------------------------------------------------------------
+
+    -- telescope
+    {
+        "nvim-telescope/telescope.nvim",
+        cmd = "Telescope",
+        tag = "0.1.8",
+        keys = function()
+            return require("jux.plugins.telescope").keys
+        end,
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "nvim-lua/popup.nvim",
+        },
+        config = function()
+            require("jux.plugins.telescope").setup()
+        end,
+    },
+
+    -- arrow
+    {
+        "otavioschwanck/arrow.nvim",
+        event = "VeryLazy",
+        config = function()
+            require("jux.plugins.arrow").setup()
+        end,
+    },
+
+    -- ------------------------------------------------------------------------
+    -- Treesitter and syntax highlighting
+    -- ------------------------------------------------------------------------
+
     -- treesitter: syntax highlighting
     {
-        'nvim-treesitter/nvim-treesitter',
-        run = ':TSUpdate',
-        event = 'BufRead',
+        "nvim-treesitter/nvim-treesitter",
+        build = ":TSUpdate",
+        event = { "BufReadPost", "BufNewFile" },
+        config = function()
+            require("jux.plugins.treesitter").setup()
+        end,
     },
-    { 'nvim-treesitter/playground', dependencies = 'nvim-treesitter/nvim-treesitter', cmd = 'TSPlaygroundToggle' },
-    { "nvim-treesitter/nvim-treesitter-textobjects", dependencies = "nvim-treesitter/nvim-treesitter", event = 'BufRead' },
 
-    -- quick file access
-    {'theprimeagen/harpoon', module = "harpoon"},
+    -- treesitter: playground and textobjects
+    {
+        'nvim-treesitter/playground',
+        dependencies = 'nvim-treesitter/nvim-treesitter',
+        cmd = 'TSPlaygroundToggle'
+    },
+    {
+        "nvim-treesitter/nvim-treesitter-textobjects",
+        dependencies = "nvim-treesitter/nvim-treesitter",
+        event = 'BufRead'
+    },
 
+    -- ------------------------------------------------------------------------
     -- undo history
-    { 'mbbill/undotree', cmd = "UndotreeToggle" },
+    -- ------------------------------------------------------------------------
+    {
+        "mbbill/undotree",
+        cmd = "UndotreeToggle",
+        keys = function()
+            return require("jux.plugins.undotree").keys
+        end,
+    },
 
+
+    -- ------------------------------------------------------------------------
+    -- Obsidian
+    -- ------------------------------------------------------------------------
+
+    -- obsidian.nvim
+    {
+        "obsidian-nvim/obsidian.nvim",
+        version = "*",
+        lazy = true,
+        ft = "markdown",
+        cond = function()
+            return require("jux.plugins.obsidian").is_available()
+        end,
+        keys = function()
+            return require("jux.plugins.obsidian").keys
+        end,
+        dependencies = { "nvim-lua/plenary.nvim" },
+        config = function()
+            require("jux.plugins.obsidian").setup()
+        end,
+    },
+
+
+    -- ------------------------------------------------------------------------
+    -- GitHub Copilot
+    -- ------------------------------------------------------------------------
+    -- On Windows, requires:
+    -- $env:NODE_OPTIONS="--experimental-sqlite"
+
+    -- copilot.vim
+    {
+        "github/copilot.vim",
+        lazy = false,
+        config = function()
+            require("jux.plugins.copilot").setup()
+        end,
+    },
     -- git
     { 'tpope/vim-fugitive', cmd = "Git" },
-    { 'lewis6991/gitsigns.nvim' },
 
     {
       "debugloop/telescope-undo.nvim",
@@ -77,24 +282,7 @@ lazy.setup({
     { "theHamsta/nvim-dap-virtual-text" },
 
     -- comments
-    { 'numToStr/Comment.nvim', event = "BufRead" },
     { 'JoosepAlviste/nvim-ts-context-commentstring', dependencies = 'nvim-treesitter/nvim-treesitter', event = 'BufRead' },
-
-    -- toggle terminal
-    {
-        "akinsho/toggleterm.nvim",
-        branch = 'main',
-        cmd = { "ToggleTerm", "TermExec" },
-    },
-
-    -- key binder reminding mechanism
-    {
-        "folke/which-key.nvim",
-        event = "VeryLazy",
-        config = function()
-            require("which-key").setup()
-        end,
-    },
 
     -- lsp 
     {
@@ -155,28 +343,6 @@ lazy.setup({
     --     dependencies = { 'hrsh7th/nvim-cmp' },
     -- },
 
-
-    -- file explorer
-    {'nvim-tree/nvim-web-devicons', lazy = true},
-    {
-        'nvim-tree/nvim-tree.lua',
-        cmd = "NvimTreeToggle",
-        config = function()
-            -- disable netrw before setting up nvim-tree
-            vim.g.loaded_netrw = 1
-            vim.g.loaded_netrwPlugin = 1
-
-            require("nvim-tree").setup()
-        end,
-    },
-
-    -- transparent
-    -- {'xiyaowong/transparent.nvim', event='VeryLazy'},
-    {'xiyaowong/transparent.nvim'},
-
-    -- lualine
-    {'nvim-lualine/lualine.nvim', event = "VeryLazy"},
-
     -- change conda env from within neovim
     {
         'AckslD/swenv.nvim',
@@ -189,43 +355,7 @@ lazy.setup({
     },
     { 'stevearc/dressing.nvim', event = 'VeryLazy' },
 
-    -- hop
-    {
-        "smoka7/hop.nvim",
-        cmd = "HopWord",
-        config = function()
-            require('hop').setup()
-        end,
-    },
 
-    -- zen mode
-    {
-        "folke/zen-mode.nvim",
-        cmd = "ZenMode",
-        -- config = function()
-        --     require('zen-mode').setup({
-        --         window = {
-        --             width = .65 -- width will be 65% of the editor width
-        --         }
-        --     })
-        -- end,
-    },
-
-    -- GitHub Copilot
-    -- On Windows, requires:
-    -- $env:NODE_OPTIONS="--experimental-sqlite"
-    {
-        'github/copilot.vim',
-        event = "VeryLazy",
-        cond = not vim.g.vscode,  -- Load Copilot only if not running in VSCode
-    },
-
-    {
-      "obsidian-nvim/obsidian.nvim",
-      version = "*",
-      lazy = false,
-      dependencies = { "nvim-lua/plenary.nvim" },
-    },
 
     -- {
     --   'nvimdev/dashboard-nvim',
@@ -245,41 +375,6 @@ lazy.setup({
         },
     },
 
-
-    {
-        "kylechui/nvim-surround",
-        version = "*", -- Use for stability; omit to use `main` branch for the latest features
-        event = "VeryLazy",
-        config = function()
-            require("nvim-surround").setup({
-                -- Configuration here, or leave empty to use defaults
-            })
-        end
-    },
-
-    -- git
-    {
-      "NeogitOrg/neogit",
-      dependencies = {
-        "nvim-lua/plenary.nvim",         -- required
-        "sindrets/diffview.nvim",        -- optional - Diff integration
-
-        -- Only one of these is needed, not both.
-        "nvim-telescope/telescope.nvim", -- optional
-      },
-      event = "VeryLazy",
-      config = true
-    },
-
-    {
-      'stevearc/oil.nvim',
-      ---@module 'oil'
-      ---@type oil.SetupOpts
-      opts = {},
-      -- Optional dependencies
-      dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
-    },
-
     -- multiline cursors
     {
         "jake-stewart/multicursor.nvim",
@@ -291,16 +386,6 @@ lazy.setup({
 
     -- projects
     -- { "ahmedkhalf/project.nvim" },
-
-    -- another project manager: conduct
-    {
-        "aaditeynair/conduct.nvim",
-        dependencies = "nvim-lua/plenary.nvim",
-    },
-
-    {
-      "otavioschwanck/arrow.nvim",
-    },
 
     {
       "pappasam/nvim-repl",

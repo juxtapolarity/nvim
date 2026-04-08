@@ -1,6 +1,10 @@
 -- ----------------------------------------------------------------------------
--- Requires
+-- markdown
 -- ----------------------------------------------------------------------------
-require("jux")
-require("jux.lazy")
+vim.cmd([[
+augroup markdown
+  autocmd!
+  autocmd FileType markdown setlocal textwidth=79
+augroup END
+]])
 
