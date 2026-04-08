@@ -97,23 +97,10 @@ lazy.setup({
     },
 
     -- lsp 
-    -- { 'neovim/nvim-lspconfig', event = { 'BufRead', 'BufNewFile' } },
-    -- { 'williamboman/mason.nvim', run = ":MasonUpdate", event = { 'BufRead', 'BufNewFile' } },
-    -- { 'williamboman/mason-lspconfig.nvim', event = { 'BufRead', 'BufNewFile' }, dependencies = { 'williamboman/mason.nvim' } },
-    -- { 'neovim/nvim-lspconfig', event = { 'BufRead', 'BufNewFile' } },
-    { 'neovim/nvim-lspconfig', version = '^2.0.0', event = { 'BufRead', 'BufNewFile' } },
     {
       'williamboman/mason.nvim',
-      version = '^1.0.0',
-      run = ':MasonUpdate',
-      event = { 'BufRead', 'BufNewFile' },
-    },
-
-    {
-      'williamboman/mason-lspconfig.nvim',
-      version = '^1.0.0',
-      event = { 'BufRead', 'BufNewFile' },
-      dependencies = { 'williamboman/mason.nvim' },
+      lazy = false,
+      build = ':MasonUpdate',
     },
 
     -- cmp plugins
@@ -225,6 +212,8 @@ lazy.setup({
     },
 
     -- GitHub Copilot
+    -- On Windows, requires:
+    -- $env:NODE_OPTIONS="--experimental-sqlite"
     {
         'github/copilot.vim',
         event = "VeryLazy",
@@ -232,20 +221,10 @@ lazy.setup({
     },
 
     {
-      "epwalsh/obsidian.nvim",
-      version = "*",  -- recommended, use latest release instead of latest commit
-      lazy = true,
-      ft = "markdown",
-      -- event = {
-      --   -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
-      --   -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
-      --   "BufReadPre " .. vim.fn.expand "~" .. "obsidian/juxnotes/**.md",
-      --   "BufNewFile " .. vim.fn.expand "~" .. "obsidian/juxnotes/**.md",
-      -- },
-      dependencies = {
-        -- Required.
-        "nvim-lua/plenary.nvim",
-      },
+      "obsidian-nvim/obsidian.nvim",
+      version = "*",
+      lazy = false,
+      dependencies = { "nvim-lua/plenary.nvim" },
     },
 
     -- {
