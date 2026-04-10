@@ -4,8 +4,8 @@
 local M = {}
 
 local function get_python_path()
-    local ok, swenv = pcall(require, "swenv.api")
-    if ok then
+    local ok, swenv = pcall(require, "swenv")
+    if ok and type(swenv.get_current_venv_path) == "function" then
         local venv = swenv.get_current_venv_path()
         if venv and venv ~= "" then
             if vim.fn.has("win32") == 1 then

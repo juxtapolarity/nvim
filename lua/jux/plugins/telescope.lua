@@ -28,6 +28,9 @@ end
 -- Key mappings
 -- ----------------------------------------------------------------------------
 M.keys = {
+    { "<leader>ff", "<cmd>Telescope find_files<CR>", desc = "find files" },
+    { "<leader>fg", "<cmd>Telescope live_grep<CR>", desc = "live grep" },
+
     { "<leader>fbg", search_in_buffers, desc = "grep in buffers" },
     { "<leader>fbf", "<cmd>Telescope buffers<CR>", desc = "buffers" },
     { "<leader>fh", "<cmd>Telescope help_tags<CR>", desc = "help tags" },

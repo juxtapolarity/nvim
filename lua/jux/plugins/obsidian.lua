@@ -1,19 +1,16 @@
+-- ----------------------------------------------------------------------------
+-- obsidian.nvim configuration for Neovim
+-- ----------------------------------------------------------------------------
 local M = {}
 
 local uv = vim.uv or vim.loop
 local is_windows = vim.fn.has("win32") == 1
 local vault_path = vim.fs.normalize(vim.fn.expand("~/obsidian/juxnotes"))
 
--- ----------------------------------------------------------------------------
--- Helper functions
--- ----------------------------------------------------------------------------
-
--- Check if a path exists
 local function path_exists(path)
     return uv.fs_stat(path) ~= nil
 end
 
--- Check if Obsidian app is available
 local function obsidian_app_exists()
     if is_windows then
         if vim.fn.executable("Obsidian") == 1 or vim.fn.executable("Obsidian.exe") == 1 then
@@ -38,7 +35,6 @@ local function obsidian_app_exists()
     return false
 end
 
--- Check if plugin should be loaded
 function M.is_available()
     return path_exists(vault_path) and obsidian_app_exists()
 end
@@ -47,20 +43,20 @@ end
 -- Key mappings
 -- ----------------------------------------------------------------------------
 M.keys = {
-    { "<leader>oa", "<cmd>ObsidianOpen<CR>", desc = "Open in app" },
-    { "<leader>on", "<cmd>ObsidianNew<CR>", desc = "Create note" },
-    { "<leader>oc", "<cmd>ObsidianToggleCheckbox<CR>", desc = "Toggle checkbox" },
-    { "<leader>of", "<cmd>ObsidianQuickSwitch<CR>", desc = "Find files" },
-    { "<leader>og", "<cmd>ObsidianSearch<CR>", desc = "Find grep" },
-    { "<leader>ol", "<cmd>ObsidianLink<CR>", desc = "Create link" },
-    { "<leader>ob", "<cmd>ObsidianBacklinks<CR>", desc = "Backlinks" },
-    { "<leader>oo", "<cmd>ObsidianFollowLink<CR>", desc = "Follow link" },
-    { "<leader>ox", "<cmd>ObsidianTags<CR>", desc = "Tags" },
-    { "<leader>oy", "<cmd>ObsidianYesterday<CR>", desc = "Yesterday" },
-    { "<leader>ot", "<cmd>ObsidianToday<CR>", desc = "Today" },
-    { "<leader>oz", "<cmd>ObsidianTomorrow<CR>", desc = "Tomorrow" },
-    { "<leader>oi", "<cmd>ObsidianPasteImg<CR>", desc = "Paste image" },
-    { "<leader>oT", "<cmd>ObsidianTemplate<CR>", desc = "Template" },
+    { "<leader>oa", "<cmd>Obsidian open<CR>", desc = "Open in app" },
+    { "<leader>on", "<cmd>Obsidian new<CR>", desc = "Create note" },
+    { "<leader>oc", "<cmd>Obsidian toggle_checkbox<CR>", desc = "Toggle checkbox" },
+    { "<leader>of", "<cmd>Obsidian quick_switch<CR>", desc = "Find files" },
+    { "<leader>og", "<cmd>Obsidian search<CR>", desc = "Find grep" },
+    { "<leader>ol", "<cmd>Obsidian link<CR>", desc = "Create link", mode = "v" },
+    { "<leader>ob", "<cmd>Obsidian backlinks<CR>", desc = "Backlinks" },
+    { "<leader>oo", "<cmd>Obsidian follow_link<CR>", desc = "Follow link" },
+    { "<leader>ox", "<cmd>Obsidian tags<CR>", desc = "Tags" },
+    { "<leader>oy", "<cmd>Obsidian yesterday<CR>", desc = "Yesterday" },
+    { "<leader>ot", "<cmd>Obsidian today<CR>", desc = "Today" },
+    { "<leader>oz", "<cmd>Obsidian tomorrow<CR>", desc = "Tomorrow" },
+    { "<leader>oi", "<cmd>Obsidian paste_img<CR>", desc = "Paste image" },
+    { "<leader>oT", "<cmd>Obsidian template<CR>", desc = "Template" },
 }
 
 -- ----------------------------------------------------------------------------
@@ -68,11 +64,31 @@ M.keys = {
 -- ----------------------------------------------------------------------------
 function M.setup()
     require("obsidian").setup({
+        legacy_commands = false,
+
         workspaces = {
             { name = "juxnotes", path = vault_path },
         },
 
-        notes = { folder = "Notes" },
+        notes_subdir = "Notes",
+
+        picker = {
+            name = "telescope.nvim",
+        },
+
+        completion = {
+            nvim_cmp = true,
+            min_chars = 2,
+        },
+
+        statusline = {
+            enabled = false,
+        },
+
+        footer = {
+            enabled = false,
+            separator = false,
+        },
 
         ui = {
             enable = true,
@@ -112,6 +128,10 @@ function M.setup()
             template = "daily.md",
         },
 
+        templates = {
+            folder = "Templates",
+        },
+
         follow_url_func = function(url)
             if is_windows then
                 vim.fn.jobstart({ "cmd.exe", "/c", "start", "", url }, { detach = true })
@@ -136,8 +156,6 @@ function M.setup()
             local path = spec.dir / "Notes" / tostring(spec.id)
             return path:with_suffix(".md")
         end,
-
-        templates = { folder = "Templates" },
     })
 end
 

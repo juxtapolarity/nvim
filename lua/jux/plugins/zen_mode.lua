@@ -2,7 +2,6 @@
 -- Zen Mode configuration for Neovim
 -- ----------------------------------------------------------------------------
 
--- Create a module
 local M = {}
 
 -- ----------------------------------------------------------------------------
@@ -13,13 +12,23 @@ M.keys = {
 }
 
 -- ----------------------------------------------------------------------------
+-- Helper function: choose width by filetype
+-- ----------------------------------------------------------------------------
+local function zen_width()
+    if vim.bo.filetype == "python" then
+        return 131
+    end
+    return 100
+end
+
+-- ----------------------------------------------------------------------------
 -- Setup function for zen-mode.nvim
 -- ----------------------------------------------------------------------------
 function M.setup()
     require("zen-mode").setup({
         window = {
             backdrop = 0.7,
-            width = 100,
+            width = zen_width,
         },
         plugins = {
             options = {

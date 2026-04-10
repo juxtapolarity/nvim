@@ -182,13 +182,11 @@ lazy.setup({
     {
         "nvim-telescope/telescope.nvim",
         cmd = "Telescope",
-        tag = "0.1.8",
         keys = function()
             return require("jux.plugins.telescope").keys
         end,
         dependencies = {
             "nvim-lua/plenary.nvim",
-            "nvim-lua/popup.nvim",
         },
         config = function()
             require("jux.plugins.telescope").setup()
@@ -397,10 +395,6 @@ lazy.setup({
         keys = function()
             return require("jux.plugins.dap").keys
         end,
-        dependencies = {
-            "rcarriga/cmp-dap",
-            "hrsh7th/nvim-cmp",
-        },
         config = function()
             require("jux.plugins.dap").setup()
         end,
@@ -457,7 +451,7 @@ lazy.setup({
             "mfussenegger/nvim-dap",
             "hrsh7th/nvim-cmp",
         },
-        lazy = true,
+        ft = { "dap-repl", "dapui_watches", "dapui_hover" },
     },
 
     -- telescope-dap
@@ -499,15 +493,5 @@ lazy.setup({
         },
     },
 
-
-    {
-      "ibhagwan/fzf-lua",
-      -- optional for icon support
-      dependencies = { "nvim-tree/nvim-web-devicons" },
-      config = function()
-        -- calling `setup` is optional for customization
-        require("fzf-lua").setup({})
-      end
-    }
 })
 

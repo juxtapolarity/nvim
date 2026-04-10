@@ -87,6 +87,15 @@ M.keys = {
         end,
         desc = "scopes [dap]",
     },
+    {
+        "<leader>dd",
+        function()
+            local widgets = require("dap.ui.widgets")
+            widgets.centered_float(widgets.scopes)
+        end,
+        desc = "scopes [dap]",
+    },
+
 }
 
 -- ----------------------------------------------------------------------------
@@ -97,14 +106,6 @@ function M.setup()
     local dapui = require("dapui")
 
     dapui.setup({})
-
-    dap.listeners.before.attach["jux_dapui"] = function()
-        dapui.open()
-    end
-
-    dap.listeners.before.launch["jux_dapui"] = function()
-        dapui.open()
-    end
 
     dap.listeners.before.event_terminated["jux_dapui"] = function()
         dapui.close()
