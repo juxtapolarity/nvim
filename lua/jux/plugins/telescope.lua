@@ -38,9 +38,6 @@ M.keys = {
     { "<leader>df", "<cmd>Telescope dap frames<CR>", desc = "frames [telescope]" },
     { "<leader>dlb", "<cmd>Telescope dap list_breakpoints<CR>", desc = "list breakpoints [telescope]" },
     { "<leader>dv", "<cmd>Telescope dap variables<CR>", desc = "variables [telescope]" },
-
-    -- Telescope undo extension
-    { "<leader>u", "<cmd>Telescope undo<CR>", desc = "telescope undo" },
 }
 
 -- ----------------------------------------------------------------------------
@@ -58,19 +55,9 @@ function M.setup()
                 },
             },
         },
-        extensions = {
-            undo = {
-                side_by_side = true,
-                layout_strategy = "vertical",
-                layout_config = {
-                    preview_height = 0.8,
-                },
-            },
-        },
     })
 
     telescope.load_extension("ascii")
-    telescope.load_extension("undo")
 
     local ok_dap = pcall(require, "dap")
     if ok_dap then
