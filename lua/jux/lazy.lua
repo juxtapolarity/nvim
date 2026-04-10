@@ -22,7 +22,16 @@ vim.opt.rtp:prepend(lazypath)
 -- ============================================================================
 -- Load plugins with lazy.nvim
 -- ============================================================================
---
+
+-- Determine plugin sources based on OS
+local is_windows = vim.fn.has("win32") == 1
+local lazy_opts = {
+    pkg = {
+        enabled = true,
+        sources = is_windows and { "lazy" } or { "lazy", "rockspec", "packspec" },
+    },
+}
+
 -- Load lazy.nvim
 local lazy = require('lazy')
 
@@ -493,5 +502,5 @@ lazy.setup({
         },
     },
 
-})
+}, lazy_opts)
 
