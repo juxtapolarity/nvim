@@ -1,242 +1,499 @@
 -- This file can be loaded by calling `lua require('juls.lazy')` from your init.lua
 
--- Ensure lazy.nvim is available
--- vim.cmd [[packadd lazy.nvim]]
+-- ----------------------------------------------------------------------------
+-- Bootstrap
+-- ---------------------------------------------------------------------------
 
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-  vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+  vim.fn.system({
+      "git",
+      "clone",
+      "--filter=blob:none",
+      "--branch=stable",
+      lazyrepo,
+      lazypath
+  })
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Check if the required Obsidian directory exists
--- local obsidian_directory = "/home/jux/obsidian/juxnotes"
--- local obsidian_exists = vim.loop.fs_stat(obsidian_directory)
+-- ============================================================================
+-- Load plugins with lazy.nvim
+-- ============================================================================
 
+-- Determine plugin sources based on OS
+local is_windows = vim.fn.has("win32") == 1
+local lazy_opts = {
+    pkg = {
+        enabled = true,
+        sources = is_windows and { "lazy" } or { "lazy", "rockspec", "packspec" },
+    },
+}
+
+-- Load lazy.nvim
 local lazy = require('lazy')
 
 lazy.setup({
 
+    -- ------------------------------------------------------------------------
+    -- Colorscheme
+    -- ------------------------------------------------------------------------
+
     -- tokyonight gogh theme
-    { 'cesaralvarod/tokyogogh.nvim', lazy=false, priority=1000 },
-
-    -- fuzzy finder
     {
-        'nvim-telescope/telescope.nvim',
+        "cesaralvarod/tokyogogh.nvim",
         lazy = false,
-        cmd = "Telescope",
-        tag = '0.1.8',
-        dependencies = {
-            { 'nvim-lua/popup.nvim', lazy = false },
-            { 'nvim-lua/plenary.nvim', lazy = false },
-            -- { 'nvim-lua/plenary.nvim', lazy = true },
-            -- { 'nvim-lua/popup.nvim', lazy = true },
-        },
+        priority = 1000,
         config = function()
-            require('telescope').setup()
+            require("jux.plugins.tokyogogh").setup()
+            vim.cmd.colorscheme("tokyogogh")
         end,
     },
 
-    -- treesitter: syntax highlighting
-    {
-        'nvim-treesitter/nvim-treesitter',
-        run = ':TSUpdate',
-        event = 'BufRead',
-    },
-    { 'nvim-treesitter/playground', dependencies = 'nvim-treesitter/nvim-treesitter', cmd = 'TSPlaygroundToggle' },
-    { "nvim-treesitter/nvim-treesitter-textobjects", dependencies = "nvim-treesitter/nvim-treesitter", event = 'BufRead' },
-
-    -- quick file access
-    {'theprimeagen/harpoon', module = "harpoon"},
-
-    -- undo history
-    { 'mbbill/undotree', cmd = "UndotreeToggle" },
-
-    -- git
-    { 'tpope/vim-fugitive', cmd = "Git" },
-    { 'lewis6991/gitsigns.nvim' },
-
-    {
-      "debugloop/telescope-undo.nvim",
-      dependencies = { -- note how they're inverted to above example
-        {
-          "nvim-telescope/telescope.nvim",
-          dependencies = { "nvim-lua/plenary.nvim" },
-        },
-      },
-    },
-
-    -- dap
-    { 'nvim-telescope/telescope-dap.nvim' },
-    { "mfussenegger/nvim-dap" },
-    { "rcarriga/nvim-dap-ui", dependencies = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"} },
-    { "rcarriga/cmp-dap" },
-    { "mfussenegger/nvim-dap-python" },
-    { "theHamsta/nvim-dap-virtual-text" },
-
-    -- comments
-    { 'numToStr/Comment.nvim', event = "BufRead" },
-    { 'JoosepAlviste/nvim-ts-context-commentstring', dependencies = 'nvim-treesitter/nvim-treesitter', event = 'BufRead' },
-
-    -- toggle terminal
-    {
-        "akinsho/toggleterm.nvim",
-        branch = 'main',
-        cmd = { "ToggleTerm", "TermExec" },
-    },
-
-    -- key binder reminding mechanism
-    {
-        "folke/which-key.nvim",
-        event = "VeryLazy",
-        config = function()
-            require("which-key").setup()
-        end,
-    },
-
-    -- lsp 
-    {
-      'williamboman/mason.nvim',
-      lazy = false,
-      build = ':MasonUpdate',
-    },
-
-    -- cmp plugins
-    { 'hrsh7th/nvim-cmp' },
-    { 'hrsh7th/cmp-nvim-lsp' },
-    { 'hrsh7th/cmp-buffer' },
-    { 'hrsh7th/cmp-path' },
-    { 'hrsh7th/cmp-cmdline' },
-    { 'hrsh7th/cmp-nvim-lsp-signature-help' },
-    { 'L3MON4D3/LuaSnip' },
-    { 'saadparwaiz1/cmp_luasnip' },
-    -- {
-    -- 'L3MON4D3/LuaSnip',
-    -- lazy = false, -- Force LuaSnip to load immediately
-    -- },
-    -- {
-    --     'saadparwaiz1/cmp_luasnip',
-    --     lazy = false, -- Load immediately to ensure cmp_luasnip initializes after LuaSnip
-    --     dependencies = { 'L3MON4D3/LuaSnip' },
-    -- },
-    -- {
-    --     'hrsh7th/nvim-cmp',
-    --     lazy = false, -- Load nvim-cmp immediately after LuaSnip and cmp_luasnip
-    --     dependencies = {
-    --         'L3MON4D3/LuaSnip',
-    --         'saadparwaiz1/cmp_luasnip',
-    --     },
-    -- },
-    -- {
-    --     'hrsh7th/cmp-nvim-lsp',
-    --     lazy = true, -- These plugins can load lazily as they don’t need to initialize first
-    --     dependencies = { 'hrsh7th/nvim-cmp' },
-    -- },
-    -- {
-    --     'hrsh7th/cmp-buffer',
-    --     lazy = true,
-    --     dependencies = { 'hrsh7th/nvim-cmp' },
-    -- },
-    -- {
-    --     'hrsh7th/cmp-path',
-    --     lazy = true,
-    --     dependencies = { 'hrsh7th/nvim-cmp' },
-    -- },
-    -- {
-    --     'hrsh7th/cmp-cmdline',
-    --     lazy = true,
-    --     dependencies = { 'hrsh7th/nvim-cmp' },
-    -- },
-    -- {
-    --     'hrsh7th/cmp-nvim-lsp-signature-help',
-    --     lazy = true,
-    --     dependencies = { 'hrsh7th/nvim-cmp' },
-    -- },
-
-
-    -- file explorer
-    {'nvim-tree/nvim-web-devicons', lazy = true},
-    {
-        'nvim-tree/nvim-tree.lua',
-        cmd = "NvimTreeToggle",
-        config = function()
-            -- disable netrw before setting up nvim-tree
-            vim.g.loaded_netrw = 1
-            vim.g.loaded_netrwPlugin = 1
-
-            require("nvim-tree").setup()
-        end,
-    },
+    ---------------------------------------------------------------------------
+    -- Transparent background
+    ---------------------------------------------------------------------------
 
     -- transparent
-    -- {'xiyaowong/transparent.nvim', event='VeryLazy'},
-    {'xiyaowong/transparent.nvim'},
-
-    -- lualine
-    {'nvim-lualine/lualine.nvim', event = "VeryLazy"},
-
-    -- change conda env from within neovim
     {
-        'AckslD/swenv.nvim',
-        module = 'swenv',
+        'xiyaowong/transparent.nvim',
         config = function()
-            require('swenv').setup({
-                notification = false,  -- Disable notification messages
-            })
+            require("jux.plugins.transparent")
         end,
     },
-    { 'stevearc/dressing.nvim', event = 'VeryLazy' },
 
-    -- hop
-    {
-        "smoka7/hop.nvim",
-        cmd = "HopWord",
-        config = function()
-            require('hop').setup()
-        end,
-    },
+    -- ------------------------------------------------------------------------
+    -- Zen mode
+    -- ------------------------------------------------------------------------
 
     -- zen mode
     {
         "folke/zen-mode.nvim",
         cmd = "ZenMode",
-        -- config = function()
-        --     require('zen-mode').setup({
-        --         window = {
-        --             width = .65 -- width will be 65% of the editor width
-        --         }
-        --     })
-        -- end,
+        keys = function()
+            return require("jux.plugins.zen_mode").keys
+        end,
+        config = function()
+            require("jux.plugins.zen_mode").setup()
+        end,
+    },
+    --
+    -- ------------------------------------------------------------------------
+    -- Keybindings: reminder
+    -- ------------------------------------------------------------------------
+
+    -- which-key
+    {
+        "folke/which-key.nvim",
+        event = "VeryLazy",
+        config = function()
+            require("jux.plugins.which_key").setup()
+        end,
     },
 
+    -- ------------------------------------------------------------------------
+    -- Statusline
+    -- ------------------------------------------------------------------------
+
+    -- lualine
+    {
+        "nvim-lualine/lualine.nvim",
+        event = "VeryLazy",
+        config = function()
+            require("jux.plugins.lualine").setup()
+        end,
+    },
+
+    -- ------------------------------------------------------------------------
+    -- Git
+    -- ------------------------------------------------------------------------
+
+    -- fugitive
+    {
+        "tpope/vim-fugitive",
+        cmd = "Git",
+        keys = function()
+            return require("jux.plugins.fugitive").keys
+        end,
+    },
+
+    -- gitsigns
+    {
+        'lewis6991/gitsigns.nvim',
+        event = { "BufReadPre", "BufNewFile" },
+        config = function()
+            require("jux.plugins.gitsigns").setup()
+        end,
+    },
+
+    -- ------------------------------------------------------------------------
+    -- Comments
+    -- ------------------------------------------------------------------------
+    {
+        "numToStr/Comment.nvim",
+        event = "VeryLazy",
+        config = function()
+            require("jux.plugins.comment").setup()
+        end,
+    },
+
+    -- ------------------------------------------------------------------------
+    -- Code formatting
+    -- ------------------------------------------------------------------------
+
+    -- nvim-surround
+    {
+        "kylechui/nvim-surround",
+        version = "*",
+        event = "VeryLazy",
+        config = function()
+            require("jux.plugins.nvim_surround").setup()
+        end,
+    },
+
+    -- ------------------------------------------------------------------------
+    -- File explorer
+    -- ------------------------------------------------------------------------
+    {
+        "stevearc/oil.nvim",
+        cmd = "Oil",
+        keys = function()
+            return require("jux.plugins.oil").keys
+        end,
+        config = function()
+            require("jux.plugins.oil").setup()
+        end,
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+    },
+    -- ------------------------------------------------------------------------
+    -- Navigation
+    -- ------------------------------------------------------------------------
+
+    -- hop
+    {
+        "smoka7/hop.nvim",
+        cmd = { "HopWord", "HopChar1" },
+        keys = function()
+            return require("jux.plugins.hop").keys
+        end,
+        config = function()
+            require("jux.plugins.hop").setup()
+        end,
+    },
+
+    -- ------------------------------------------------------------------------
+    -- Buffer management
+    -- ------------------------------------------------------------------------
+
+    -- telescope
+    {
+        "nvim-telescope/telescope.nvim",
+        cmd = "Telescope",
+        keys = function()
+            return require("jux.plugins.telescope").keys
+        end,
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+        },
+        config = function()
+            require("jux.plugins.telescope").setup()
+        end,
+    },
+
+    -- telescope-undo
+    {
+        "debugloop/telescope-undo.nvim",
+        dependencies = {
+            "nvim-telescope/telescope.nvim",
+            "nvim-lua/plenary.nvim",
+        },
+        keys = function()
+            return require("jux.plugins.telescope_undo").keys
+        end,
+        config = function()
+            require("jux.plugins.telescope_undo").setup()
+        end,
+    },
+
+    -- arrow
+    {
+        "otavioschwanck/arrow.nvim",
+        event = "VeryLazy",
+        config = function()
+            require("jux.plugins.arrow").setup()
+        end,
+    },
+
+    -- ------------------------------------------------------------------------
+    -- Treesitter and syntax highlighting
+    -- ------------------------------------------------------------------------
+
+    -- treesitter: syntax highlighting
+    {
+        "nvim-treesitter/nvim-treesitter",
+        build = ":TSUpdate",
+        event = { "BufReadPost", "BufNewFile" },
+        config = function()
+            require("jux.plugins.treesitter").setup()
+        end,
+    },
+
+    -- treesitter: playground and textobjects
+    {
+        'nvim-treesitter/playground',
+        dependencies = 'nvim-treesitter/nvim-treesitter',
+        cmd = 'TSPlaygroundToggle'
+    },
+    {
+        "nvim-treesitter/nvim-treesitter-textobjects",
+        dependencies = "nvim-treesitter/nvim-treesitter",
+        event = 'BufRead'
+    },
+
+    -- ------------------------------------------------------------------------
+    -- undo history
+    -- ------------------------------------------------------------------------
+
+    -- undotree
+    {
+        "mbbill/undotree",
+        cmd = "UndotreeToggle",
+        keys = function()
+            return require("jux.plugins.undotree").keys
+        end,
+    },
+
+    -- ------------------------------------------------------------------------
+    -- Obsidian
+    -- ------------------------------------------------------------------------
+
+    -- obsidian.nvim
+    {
+        "obsidian-nvim/obsidian.nvim",
+        version = "*",
+        lazy = true,
+        ft = "markdown",
+        cond = function()
+            return require("jux.plugins.obsidian").is_available()
+        end,
+        keys = function()
+            return require("jux.plugins.obsidian").keys
+        end,
+        dependencies = { "nvim-lua/plenary.nvim" },
+        config = function()
+            require("jux.plugins.obsidian").setup()
+        end,
+    },
+
+
+    -- ------------------------------------------------------------------------
     -- GitHub Copilot
+    -- ------------------------------------------------------------------------
     -- On Windows, requires:
     -- $env:NODE_OPTIONS="--experimental-sqlite"
+
+    -- copilot.vim
     {
-        'github/copilot.vim',
+        "github/copilot.vim",
+        lazy = false,
+        config = function()
+            require("jux.plugins.copilot").setup()
+        end,
+    },
+
+    -- ------------------------------------------------------------------------
+    -- Virtual environments
+    -- ------------------------------------------------------------------------
+
+    -- swenv
+    {
+        "AckslD/swenv.nvim",
+        keys = function()
+            return require("jux.plugins.swenv").keys
+        end,
+        config = function()
+            require("jux.plugins.swenv").setup()
+        end,
+    },
+
+    -- ------------------------------------------------------------------------
+    -- Auto-completion
+    -- ------------------------------------------------------------------------
+
+    -- cmp + sources
+    {
+        "hrsh7th/nvim-cmp",
+        -- lazy = false,
+        event = { "InsertEnter", "CmdlineEnter" },
+        dependencies = {
+            "L3MON4D3/LuaSnip",
+            "saadparwaiz1/cmp_luasnip",
+            "hrsh7th/cmp-nvim-lsp",
+            "hrsh7th/cmp-buffer",
+            "hrsh7th/cmp-path",
+            "hrsh7th/cmp-cmdline",
+            "hrsh7th/cmp-nvim-lsp-signature-help",
+        },
+        config = function()
+            require("jux.plugins.cmp").setup()
+        end,
+    },
+
+    -- ------------------------------------------------------------------------
+    -- Multicursor
+    -- ------------------------------------------------------------------------
+    {
+        "jake-stewart/multicursor.nvim",
+        branch = "1.0",
         event = "VeryLazy",
-        cond = not vim.g.vscode,  -- Load Copilot only if not running in VSCode
+        config = function()
+            require("jux.plugins.multicursor").setup()
+        end,
     },
 
-    {
-      "obsidian-nvim/obsidian.nvim",
-      version = "*",
-      lazy = false,
-      dependencies = { "nvim-lua/plenary.nvim" },
-    },
-
+    -- ------------------------------------------------------------------------
+    -- Dashboard
+    -- ------------------------------------------------------------------------
     -- {
-    --   'nvimdev/dashboard-nvim',
-    --   -- event = 'VimEnter',
-    --   -- config = function()
-    --   --   require('dashboard').setup {
-    --   --     -- config
-    --   --   }
-    --   -- end,
-    --   dependencies = { {'nvim-tree/nvim-web-devicons'}}
+    --     "nvimdev/dashboard-nvim",
+    --     event = "UIEnter",
+    --     dependencies = { "nvim-tree/nvim-web-devicons" },
+    --     config = function()
+    --         require("jux.plugins.dashboard").setup()
+    --     end,
     -- },
+
+    -- ------------------------------------------------------------------------
+    -- LSP
+    -- ------------------------------------------------------------------------
+    {
+        "neovim/nvim-lspconfig",
+        event = { "BufReadPre", "BufNewFile" },
+        dependencies = {
+            "williamboman/mason.nvim",
+            "hrsh7th/cmp-nvim-lsp",
+        },
+        config = function()
+            require("jux.plugins.lsp").setup()
+        end,
+    },
+
+    -- ------------------------------------------------------------------------
+    -- TMUX <-> Neovim navigation
+    -- ------------------------------------------------------------------------
+    {
+        "alexghergh/nvim-tmux-navigation",
+        cond = function()
+            return vim.fn.executable("tmux") == 1
+        end,
+        event = "VeryLazy",
+        config = function()
+            require("jux.plugins.nvim_tmux_navigator").setup()
+        end,
+    },
+
+    -- ------------------------------------------------------------------------
+    -- DAP
+    -- ------------------------------------------------------------------------
+
+    -- nvim-dap
+    {
+        "mfussenegger/nvim-dap",
+        keys = function()
+            return require("jux.plugins.dap").keys
+        end,
+        config = function()
+            require("jux.plugins.dap").setup()
+        end,
+    },
+
+    -- nvim-dap-ui
+    {
+        "rcarriga/nvim-dap-ui",
+        dependencies = {
+            "mfussenegger/nvim-dap",
+            "nvim-neotest/nvim-nio",
+        },
+        keys = function()
+            return require("jux.plugins.dap_ui").keys
+        end,
+        config = function()
+            require("jux.plugins.dap_ui").setup()
+        end,
+    },
+
+    -- nvim-dap-virtual-text
+    {
+        "theHamsta/nvim-dap-virtual-text",
+        dependencies = {
+            "mfussenegger/nvim-dap",
+        },
+        keys = function()
+            return require("jux.plugins.dap_virtual_text").keys
+        end,
+        config = function()
+            require("jux.plugins.dap_virtual_text").setup()
+        end,
+    },
+
+    -- nvim-dap-python
+    {
+        "mfussenegger/nvim-dap-python",
+        ft = "python",
+        dependencies = {
+            "mfussenegger/nvim-dap",
+        },
+        keys = function()
+            return require("jux.plugins.dap_python").keys
+        end,
+        config = function()
+            require("jux.plugins.dap_python").setup()
+        end,
+    },
+
+    -- cmp-dap
+    {
+        "rcarriga/cmp-dap",
+        dependencies = {
+            "mfussenegger/nvim-dap",
+            "hrsh7th/nvim-cmp",
+        },
+        ft = { "dap-repl", "dapui_watches", "dapui_hover" },
+    },
+
+    -- telescope-dap
+    {
+        "nvim-telescope/telescope-dap.nvim",
+        keys = function()
+            return require("jux.plugins.telescope_dap").keys
+        end,
+        dependencies = {
+            "nvim-telescope/telescope.nvim",
+            "mfussenegger/nvim-dap",
+        },
+        config = function()
+            require("jux.plugins.telescope_dap").setup()
+        end,
+    },
+
+    -- ------------------------------------------------------------------------
+    -- REPL
+    -- ------------------------------------------------------------------------
+    {
+      "pappasam/nvim-repl",
+    },
+
+    -- comments
+    {
+        'JoosepAlviste/nvim-ts-context-commentstring',
+        dependencies = 'nvim-treesitter/nvim-treesitter',
+        event = 'BufRead'
+    },
+
+
+    { 'stevearc/dressing.nvim', event = 'VeryLazy' },
 
     {
         "MaximilianLloyd/ascii.nvim",
@@ -245,84 +502,5 @@ lazy.setup({
         },
     },
 
-
-    {
-        "kylechui/nvim-surround",
-        version = "*", -- Use for stability; omit to use `main` branch for the latest features
-        event = "VeryLazy",
-        config = function()
-            require("nvim-surround").setup({
-                -- Configuration here, or leave empty to use defaults
-            })
-        end
-    },
-
-    -- git
-    {
-      "NeogitOrg/neogit",
-      dependencies = {
-        "nvim-lua/plenary.nvim",         -- required
-        "sindrets/diffview.nvim",        -- optional - Diff integration
-
-        -- Only one of these is needed, not both.
-        "nvim-telescope/telescope.nvim", -- optional
-      },
-      event = "VeryLazy",
-      config = true
-    },
-
-    {
-      'stevearc/oil.nvim',
-      ---@module 'oil'
-      ---@type oil.SetupOpts
-      opts = {},
-      -- Optional dependencies
-      dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
-    },
-
-    -- multiline cursors
-    {
-        "jake-stewart/multicursor.nvim",
-        branch = "1.0",
-    },
-
-    -- tmux navigator
-    { "alexghergh/nvim-tmux-navigation" },
-
-    -- projects
-    -- { "ahmedkhalf/project.nvim" },
-
-    -- another project manager: conduct
-    {
-        "aaditeynair/conduct.nvim",
-        dependencies = "nvim-lua/plenary.nvim",
-    },
-
-    {
-      "otavioschwanck/arrow.nvim",
-    },
-
-    {
-      "pappasam/nvim-repl",
-    },
-
-    {
-      "ibhagwan/fzf-lua",
-      -- optional for icon support
-      dependencies = { "nvim-tree/nvim-web-devicons" },
-      config = function()
-        -- calling `setup` is optional for customization
-        require("fzf-lua").setup({})
-      end
-    }
-    -- {
-    -- 'MeanderingProgrammer/render-markdown.nvim',
-    --     dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
-    --     -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
-    --     -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
-    --     ---@module 'render-markdown'
-    --     ---@type render.md.UserConfig
-    --     opts = {},
-    -- }
-})
+}, lazy_opts)
 
