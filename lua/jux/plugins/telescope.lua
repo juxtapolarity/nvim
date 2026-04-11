@@ -41,6 +41,10 @@ M.keys = {
     { "<leader>df", "<cmd>Telescope dap frames<CR>", desc = "frames [telescope]" },
     { "<leader>dlb", "<cmd>Telescope dap list_breakpoints<CR>", desc = "list breakpoints [telescope]" },
     { "<leader>dv", "<cmd>Telescope dap variables<CR>", desc = "variables [telescope]" },
+
+    -- Diagnostics
+    { "<leader>fd", function() require("telescope.builtin").diagnostics({ bufnr = 0 }) end, desc = "buffer diagnostics" },
+    { "<leader>fD", function() require("telescope.builtin").diagnostics() end, desc = "workspace diagnostics" },
 }
 
 -- ----------------------------------------------------------------------------

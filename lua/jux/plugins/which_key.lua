@@ -13,11 +13,13 @@ function M.setup()
 
     wk.add({
         { "<leader>d", group = "debug" },
-        { "<leader>f", group = "file" },
+        { "<leader>c", group = "diagnostics" },
+        { "<leader>f", group = "telescope" },
         { "<leader>G", group = "git" },
-        { "<leader>h", group = "harpoon" },
         { "<leader>o", group = "obsidian" },
         { "<leader>T", group = "trouble" },
+        { "<leader><leader>", group = "hop" },
+        { "<leader>C", group = "virtual env" },
     })
 end
 

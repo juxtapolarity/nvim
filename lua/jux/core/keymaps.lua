@@ -113,4 +113,31 @@ vim.keymap.set('n', '<leader>v', '<C-v>', { noremap = true, silent = true })
 
 -- Map <leader>v to enter visual block mode
 
+-- ----------------------------------------------------------------------------
+-- Formatting
+-- ----------------------------------------------------------------------------
+-- Format whole buffer
+vim.keymap.set("n", "<leader>cf", function()
+    vim.lsp.buf.format({ async = true })
+end, { desc = "Format buffer" })
+
+-- Format selected range
+vim.keymap.set("v", "<leader>cf", function()
+    local start_pos = vim.fn.getpos("'<")
+    local end_pos = vim.fn.getpos("'>")
+
+    vim.lsp.buf.format({
+        async = true,
+        range = {
+            ["start"] = {
+                start_pos[2] - 1,
+                start_pos[3] - 1,
+            },
+            ["end"] = {
+                end_pos[2] - 1,
+                end_pos[3],
+            },
+        },
+    })
+end, { desc = "Format selection" })
 
