@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------------------------
--- obsidian.nvim configuration for Neovim
+-- Obsidian configuration for Neovim
 -- ----------------------------------------------------------------------------
 local M = {}
 
@@ -7,6 +7,9 @@ local uv = vim.uv or vim.loop
 local is_windows = vim.fn.has("win32") == 1
 local vault_path = vim.fs.normalize(vim.fn.expand("~/obsidian/juxnotes"))
 
+-- ----------------------------------------------------------------------------
+-- Helper functions
+-- ----------------------------------------------------------------------------
 local function path_exists(path)
     return uv.fs_stat(path) ~= nil
 end
@@ -48,7 +51,7 @@ M.keys = {
     { "<leader>oc", "<cmd>Obsidian toggle_checkbox<CR>", desc = "Toggle checkbox" },
     { "<leader>of", "<cmd>Obsidian quick_switch<CR>", desc = "Find files" },
     { "<leader>og", "<cmd>Obsidian search<CR>", desc = "Find grep" },
-    { "<leader>ol", "<cmd>Obsidian link<CR>", desc = "Create link", mode = "v" },
+    { "<leader>ol", "<cmd>Obsidian link<CR>", mode = "v", desc = "Create link" },
     { "<leader>ob", "<cmd>Obsidian backlinks<CR>", desc = "Backlinks" },
     { "<leader>oo", "<cmd>Obsidian follow_link<CR>", desc = "Follow link" },
     { "<leader>ox", "<cmd>Obsidian tags<CR>", desc = "Tags" },
@@ -131,14 +134,6 @@ function M.setup()
         templates = {
             folder = "Templates",
         },
-
-        follow_url_func = function(url)
-            if is_windows then
-                vim.fn.jobstart({ "cmd.exe", "/c", "start", "", url }, { detach = true })
-            else
-                vim.fn.jobstart({ "xdg-open", url }, { detach = true })
-            end
-        end,
 
         note_id_func = function(title)
             local suffix = ""
