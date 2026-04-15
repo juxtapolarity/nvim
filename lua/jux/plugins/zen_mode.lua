@@ -15,7 +15,7 @@ M.keys = {
 -- Helper function: choose width by filetype
 -- ----------------------------------------------------------------------------
 local function zen_width()
-    if vim.bo.filetype == "python" then
+    if vim.bo.filetype == "python" or vim.bo.filetype == "jinja" then
         return 131
     end
     return 100
