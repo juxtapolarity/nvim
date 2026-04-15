@@ -13,6 +13,8 @@ function M.setup()
         ensure_installed = {
             "c",
             "lua",
+            "jinja",
+            "jinja_inline",
             "vim",
             "vimdoc",
             "query",
@@ -30,6 +32,7 @@ function M.setup()
         highlight = {
             enable = true,
             disable = function(_, buf)
+                if vim.bo[buf].buftype ~= "" then return true end
                 local max_filesize = 100 * 1024 -- 100 KB
                 local path = vim.api.nvim_buf_get_name(buf)
                 local uv = vim.uv or vim.loop
