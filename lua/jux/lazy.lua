@@ -304,6 +304,22 @@ lazy.setup({
     },
 
     -- ------------------------------------------------------------------------
+    -- OpenCode
+    -- ------------------------------------------------------------------------
+
+    -- opencode.nvim
+    {
+        "nickjvandyke/opencode.nvim",
+        version = "*",
+        keys = function()
+            return require("jux.plugins.opencode").keys
+        end,
+        config = function()
+            require("jux.plugins.opencode").setup()
+        end,
+    },
+
+    -- ------------------------------------------------------------------------
     -- Virtual environments
     -- ------------------------------------------------------------------------
 

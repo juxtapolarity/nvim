@@ -12,6 +12,7 @@ function M.setup()
     wk.setup({})
 
     wk.add({
+        { "<leader>a", group = "opencode" },
         { "<leader>d", group = "debug" },
         { "<leader>c", group = "diagnostics" },
         { "<leader>f", group = "telescope" },
